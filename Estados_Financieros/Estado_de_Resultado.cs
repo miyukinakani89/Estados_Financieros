@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Estadoderesultado
 {
-    class Estadoderesultado
+   public  class EstadodeResultado
     {
         static void Ingresosleer(out decimal VentasTotales, out decimal Devoluciones, out decimal RebajasSobreVentas, out decimal Descuentos)
         {

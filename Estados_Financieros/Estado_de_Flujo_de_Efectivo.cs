@@ -1,57 +1,78 @@
 ﻿using System;
-using System.Collections.Generic;
+using Estadoderesultado;
+using EstadodeSituacionFinanciera;
 
-namespace FlujoDeEfectivo
+namespace Estado
 {
-    // Clase que representa un movimiento de efectivo
-    class Movimiento
+    public class EstadoFlujoEfectivo
     {
-        public string Concepto { get; set; }
-        public decimal Monto { get; set; }
-        public string Tipo { get; set; } // "Ingreso" o "Egreso"
+        private Estadoderesultado.EstadodeResultado er;
+        private BalanceGeneral bg;
 
-        public Movimiento(string concepto, decimal monto, string tipo)
+        public EstadoFlujoEfectivo(Estadoderesultado.EstadodeResultado estadoResultados, BalanceGeneral balanceGeneral)
         {
-            Concepto = concepto;
-            Monto = monto;
-            Tipo = tipo;
+            er = estadoResultados;
+            bg = balanceGeneral;
         }
-    }
 
-    class Program
-    {
-        static void Main(string[] args)
+        public decimal CalcularFlujoOperacion()
         {
-            // Lista de movimientos de efectivo
-            List<Movimiento> movimientos = new List<Movimiento>()
-            {
-                new Movimiento("Ventas", 5000m, "Ingreso"),
-                new Movimiento("Pago a proveedores", 2000m, "Egreso"),
-                new Movimiento("Pago de salarios", 1500m, "Egreso"),
-                new Movimiento("Intereses recibidos", 200m, "Ingreso")
-            };
+            
+            decimal utilidadNeta = ObtenerUtilidadNeta();
+            decimal depreciacion = ObtenerDepreciacion();
+            decimal variacionCapitalTrabajo = CalcularVariacionCapitalTrabajo();
+            
+            return utilidadNeta + depreciacion - variacionCapitalTrabajo;
+        }
 
-            decimal totalIngresos = 0;
-            decimal totalEgresos = 0;
+        private decimal ObtenerUtilidadNeta()
+        {
+            
+            return 0m;
+        }
 
-            Console.WriteLine("Estado de Flujo de Efectivo\n");
-            Console.WriteLine("Concepto\t\tTipo\t\tMonto");
+        private decimal ObtenerDepreciacion()
+        {
+            // Necesitarías acceder a los gastos de depreciación
+            return 0m;
+        }
 
-            foreach (var mov in movimientos)
-            {
-                Console.WriteLine($"{mov.Concepto}\t\t{mov.Tipo}\t\t{mov.Monto}");
-                if (mov.Tipo == "Ingreso")
-                    totalIngresos += mov.Monto;
-                else
-                    totalEgresos += mov.Monto;
-            }
+        private decimal CalcularVariacionCapitalTrabajo()
+        {
+            // Calcular variación en activos y pasivos circulantes
+            return 0m;
+        }
 
-            decimal flujoNeto = totalIngresos - totalEgresos;
+        public void GenerarFlujo()
+        {
+            Console.WriteLine("=== ESTADO DE FLUJO DE EFECTIVO ===");
+            
+            
+            decimal flujoOperacion = CalcularFlujoOperacion();
+            Console.WriteLine($"Flujo de Actividades Operativas: {flujoOperacion:C2}");
+            
+          
+            decimal flujoInversion = CalcularFlujoInversion();
+            Console.WriteLine($"Flujo de Actividades de Inversión: {flujoInversion:C2}");
+            
+           
+            decimal flujoFinanciamiento = CalcularFlujoFinanciamiento();
+            Console.WriteLine($"Flujo de Actividades de Financiamiento: {flujoFinanciamiento:C2}");
+           
+            decimal cambioNetoEfectivo = flujoOperacion + flujoInversion + flujoFinanciamiento;
+            Console.WriteLine($"Cambio Neto en Efectivo: {cambioNetoEfectivo:C2}");
+        }
 
-            Console.WriteLine("\n-------------------------------");
-            Console.WriteLine($"Total Ingresos: {totalIngresos}");
-            Console.WriteLine($"Total Egresos: {totalEgresos}");
-            Console.WriteLine($"Flujo Neto de Efectivo: {flujoNeto}");
+        private decimal CalcularFlujoInversion()
+        {
+            // Implementar cálculo de flujo de inversión
+            return 0m;
+        }
+
+        private decimal CalcularFlujoFinanciamiento()
+        {
+            // Implementar cálculo de flujo de financiamiento
+            return 0m;
         }
     }
 }

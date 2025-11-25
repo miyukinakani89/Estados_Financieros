@@ -8,7 +8,7 @@ namespace SistemaFinanciero
     {
         static void Main(string[] args)
         {
-            Console.Title = "Sistema de Estados Financieros";
+            Console.Title = "Sistema de Estados Financieros.";
 
             var balanceGeneral = new BalanceGeneral();
             var estadoFlujoEfectivo = new EstadoFlujoEfectivo();

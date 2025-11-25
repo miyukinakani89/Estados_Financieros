@@ -21,18 +21,16 @@ namespace SistemaFinanciero
             while (!salir)
             {
                 Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("==========================================");
                 Console.WriteLine("     SISTEMA DE ESTADOS FINANCIEROS");
                 Console.WriteLine("==========================================");
                 Console.ResetColor();
                 Console.WriteLine("\n1. Ingresar Datos del Balance General");
                 Console.WriteLine("2. Ingresar Datos del Estado de Resultados");
-                Console.WriteLine("3. Ingresar Transacciones de Efectivo");
-                Console.WriteLine("4. Generar Estado de Flujos de Efectivo (Directo)");
-                Console.WriteLine("5. Generar Estado de Flujos de Efectivo (Indirecto)");
-                Console.WriteLine("6. Mostrar Todos los Estados");
-                Console.WriteLine("7. Salir");
+                Console.WriteLine("3. Generar Estado de Flujos de Efectivo (Indirecto)");
+                Console.WriteLine("4. Mostrar Todos los Estados");
+                Console.WriteLine("5. Salir");
                 Console.Write("\nSeleccione una opción: ");
                 int opcion=0;
                 do
@@ -56,20 +54,14 @@ namespace SistemaFinanciero
                         break;
                     case 2:
                         IngresarDatosEstadoResultados(estadoResultado);
-                        break;
+                        break;                
                     case 3:
-                        IngresarTransacciones(transacciones);
-                        break;
-                    case 4:
-                        GenerarFlujoEfectivoDirecto(estadoFlujoEfectivo, balanceGeneral, estadoResultado, transacciones);
-                        break;
-                    case 5:
                         GenerarFlujoEfectivoIndirecto(estadoFlujoEfectivo, balanceGeneral, estadoResultado, transacciones);
                         break;
-                    case 6:
+                    case 4:
                         MostrarTodosEstados(balanceGeneral, estadoResultado, estadoFlujoEfectivo);
                         break;
-                    case 7:
+                    case 5:
                         salir = true;
                         break;
                 }
@@ -248,60 +240,6 @@ namespace SistemaFinanciero
         }
         
 
-        static void IngresarTransacciones(List<TransaccionEfectivo> transacciones)
-        {
-            Console.Clear();
-            Console.WriteLine("=== INGRESAR TRANSACCIONES DE EFECTIVO ===");
-
-            bool continuar = true;
-            while (continuar)
-            {
-                Console.WriteLine("\n--- Nueva Transacción ---");
-
-                Console.Write("Descripción: ");
-                string descripcion = Console.ReadLine();
-
-                Console.Write("Monto: ");
-                decimal monto = decimal.Parse(Console.ReadLine());
-
-                Console.WriteLine("Tipo de Flujo (1=Entrada, 2=Salida): ");
-                string tipoFlujo = Console.ReadLine() == "1" ? "Entrada" : "Salida";
-
-                Console.WriteLine("Actividad (1=Operación, 2=Inversión, 3=Financiamiento): ");
-                string tipoActividad = Console.ReadLine() switch
-                {
-                    "1" => "Operacion",
-                    "2" => "Inversion",
-                    "3" => "Financiamiento",
-                    _ => "Operacion"
-                };
-
-                transacciones.Add(new TransaccionEfectivo(descripcion, monto, tipoFlujo, tipoActividad));
-
-                Console.Write("¿Agregar otra transacción? (s/n): ");
-                continuar = Console.ReadLine().ToLower() == "s";
-            }
-
-            Console.WriteLine($"✓ Se agregaron {transacciones.Count} transacciones.");
-            Pausa();
-        }
-
-        static void GenerarFlujoEfectivoDirecto(EstadoFlujoEfectivo flujoEfectivo, BalanceGeneral balance,
-                                               EstadoResultado estadoResultado, List<TransaccionEfectivo> transacciones)
-        {
-            Console.Clear();
-            Console.WriteLine("=== ESTADO DE FLUJOS DE EFECTIVO - MÉTODO DIRECTO ===");
-
-            flujoEfectivo.Entidad = "Empresa";
-            flujoEfectivo.FechaInicio = DateTime.Now.AddYears(-1);
-            flujoEfectivo.FechaFin = DateTime.Now;
-
-            flujoEfectivo.CalcularMetodoDirecto(balance, balance, estadoResultado, transacciones);
-            flujoEfectivo.MostrarEstadoFlujoEfectivo();
-
-            Pausa();
-        }
-
         static void GenerarFlujoEfectivoIndirecto(EstadoFlujoEfectivo flujoEfectivo, BalanceGeneral balance,
                                                  EstadoResultado estadoResultado, List<TransaccionEfectivo> transacciones)
         {
@@ -312,8 +250,6 @@ namespace SistemaFinanciero
             flujoEfectivo.FechaInicio = DateTime.Now.AddYears(-1);
             flujoEfectivo.FechaFin = DateTime.Now;
 
-            flujoEfectivo.CalcularMetodoIndirecto(balance, balance, estadoResultado, transacciones);
-            flujoEfectivo.MostrarEstadoFlujoEfectivo();
 
             Pausa();
         }

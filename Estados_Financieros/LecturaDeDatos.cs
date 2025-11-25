@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Estadosfinancieros
 {
-    public class EstadoResultado
+    public class LecturaDeDatos
     {
         public void Ingresosleer(out decimal VentasTotales, out decimal Devoluciones, out decimal RebajasSobreVentas, out decimal Descuentos)
         {

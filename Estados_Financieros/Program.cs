@@ -342,7 +342,9 @@ namespace SistemaFinanciero
             Console.ReadKey();
         
         }
+        
         static void Variables(){
+        
             Ingresosleer(out VentasTotales, out Devoluciones, out RebajasSobreVentas, out Descuentos);
             CostosLeer(out decimal Compras, out decimal GastosDeCompra, out decimal DevolucionesSobreCompra, out decimal RebajasSobreCompras, out decimal DescuentoSobreCompra, out decimal InventarioInicial, out decimal InventarioFinal);
             GastosDeVentaLeer(out decimal SueldoDeLosJefesDeVenta, out decimal SueldoDeLosEmpleadosDeAlmacen, out decimal SueldoDeLosEmpleadosDeLaVenta, out decimal SueldosDeLosChoferesDelEquipoDeEntrega, out decimal ComisionesDeAgentesYDependientes, out decimal SeguroSocialesDelPersonalDeVenta, out decimal Propaganda, out decimal ConsumoDeEtiquetasEnvolturaYEmpaque, out decimal FletesYAcarreosDeLaMercanciasVendidas, out decimal GastosDeMantenimientoDelEquipoDeReparto, out decimal ImpuestosSobreIngresosMercantiles, out decimal RentaDeOficinaVentas, out decimal GastosDeDepreciacionDeVenta);

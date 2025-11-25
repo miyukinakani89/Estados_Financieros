@@ -340,6 +340,17 @@ namespace SistemaFinanciero
         {
             Console.WriteLine("\nPresione cualquier tecla para continuar...");
             Console.ReadKey();
+        
+        }
+        static void Variables(){
+            Ingresosleer(out VentasTotales, out Devoluciones, out RebajasSobreVentas, out Descuentos);
+            CostosLeer(out decimal Compras, out decimal GastosDeCompra, out decimal DevolucionesSobreCompra, out decimal RebajasSobreCompras, out decimal DescuentoSobreCompra, out decimal InventarioInicial, out decimal InventarioFinal);
+            GastosDeVentaLeer(out decimal SueldoDeLosJefesDeVenta, out decimal SueldoDeLosEmpleadosDeAlmacen, out decimal SueldoDeLosEmpleadosDeLaVenta, out decimal SueldosDeLosChoferesDelEquipoDeEntrega, out decimal ComisionesDeAgentesYDependientes, out decimal SeguroSocialesDelPersonalDeVenta, out decimal Propaganda, out decimal ConsumoDeEtiquetasEnvolturaYEmpaque, out decimal FletesYAcarreosDeLaMercanciasVendidas, out decimal GastosDeMantenimientoDelEquipoDeReparto, out decimal ImpuestosSobreIngresosMercantiles, out decimal RentaDeOficinaVentas, out decimal GastosDeDepreciacionDeVenta);
+            GastosDeAdministracionLeer(out decimal SueldoDeGerente, out decimal ServiciosBasicosVenta, out decimal SueldoDeViceGerente, out decimal SueldoDeContador, out decimal SueldoDelPersonalDeOficina, out decimal SeguroSocialDelPersonal, out decimal ConsumoDePapeleríaYUtilesDeEscritorio, out decimal GastosDeCoreoYTelegrafo, out decimal AlquilerDeOficina, out decimal GastosDeDepreciacion);
+            GastosFinancieros(out decimal InteresesSobreDocumentos, out decimal DescuentoPorPagoAnticipado, out decimal InteresesSobrePrestamosBancarios, out decimal PerdidasOUtilidadesQueResultenDelIntercambioDeMonedaExtrangera);
+            EgresosLeer(out decimal InteresesPagados, out decimal ServiciosBancarios, out decimal RentasCobradas, out decimal PerdidasoUtilidadesEnVentaDeVariosActivosFijo, out decimal PerdidasoUtilidadesEnCompraDeActivos, out decimal RentasPagadas, out decimal DividendoDeAcciones, out decimal ComisionesCobradas);
+            OtrosIngresosLeer(out decimal InteresesCobrados, out decimal DividendosCobrados);
+            Pregunta(out decimal ISR);
         }
     }
 }

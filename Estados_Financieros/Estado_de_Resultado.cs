@@ -1,9 +1,9 @@
 ﻿using System;
-namespace Estadoderesultado
+namespace Estadosfinancieros
 {
-   public  class EstadodeResultado
+    public class EstadoResultado
     {
-        static void Ingresosleer(out decimal VentasTotales, out decimal Devoluciones, out decimal RebajasSobreVentas, out decimal Descuentos)
+        public void Ingresosleer(out decimal VentasTotales, out decimal Devoluciones, out decimal RebajasSobreVentas, out decimal Descuentos)
         {
             VentasTotales = 0m;
             Devoluciones = 0m;
@@ -68,7 +68,7 @@ namespace Estadoderesultado
 
         }
 
-        static void CostosLeer(out decimal Compras, out decimal GastosDeCompra, out decimal DevolucionesSobreCompra, out decimal RebajasSobreCompras, out decimal DescuentoSobreCompra, out decimal InventarioInicial, out decimal InventarioFinal)
+        public void CostosLeer(out decimal Compras, out decimal GastosDeCompra, out decimal DevolucionesSobreCompra, out decimal RebajasSobreCompras, out decimal DescuentoSobreCompra, out decimal InventarioInicial, out decimal InventarioFinal)
         {
             Compras = 0m;
             GastosDeCompra = 0m;
@@ -175,7 +175,7 @@ namespace Estadoderesultado
 
         }
 
-        static void GastosDeVentaLeer(out decimal SueldoDeLosJefesDeVenta, out decimal SueldoDeLosEmpleadosDeAlmacen, out decimal SueldoDeLosEmpleadosDeLaVenta, out decimal SueldosDeLosChoferesDelEquipoDeEntrega, out decimal ComisionesDeAgentesYDependientes, out decimal SeguroSocialesDelPersonalDeVenta, out decimal Propaganda, out decimal ConsumoDeEtiquetasEnvolturaYEmpaque, out decimal FletesYAcarreosDeLaMercanciasVendidas, out decimal GastosDeMantenimientoDelEquipoDeReparto, out decimal ImpuestosSobreIngresosMercantiles, out decimal RentaDeOficinaVentas, out decimal GastosDeDepreciacionDeVenta)
+        public void GastosDeVentaLeer(out decimal SueldoDeLosJefesDeVenta, out decimal SueldoDeLosEmpleadosDeAlmacen, out decimal SueldoDeLosEmpleadosDeLaVenta, out decimal SueldosDeLosChoferesDelEquipoDeEntrega, out decimal ComisionesDeAgentesYDependientes, out decimal SeguroSocialesDelPersonalDeVenta, out decimal Propaganda, out decimal ConsumoDeEtiquetasEnvolturaYEmpaque, out decimal FletesYAcarreosDeLaMercanciasVendidas, out decimal GastosDeMantenimientoDelEquipoDeReparto, out decimal ImpuestosSobreIngresosMercantiles, out decimal RentaDeOficinaVentas, out decimal GastosDeDepreciacionDeVenta)
         {
             SueldoDeLosJefesDeVenta = 0m;
             SueldoDeLosEmpleadosDeAlmacen = 0m;
@@ -363,7 +363,7 @@ namespace Estadoderesultado
                 }
             } while (GastosDeDepreciacionDeVenta < 0);
         }
-        static void GastosDeAdministracionLeer(out decimal SueldoDeGerente, out decimal ServiciosBasicosVentas, out decimal SueldoDeViceGerente, out decimal SueldoDeContador, out decimal SueldoDelPersonalDeOficina, out decimal SeguroSocialDelPersonal, out decimal ConsumoDePapeleríaYUtilesDeEscritorio, out decimal GastosDeCoreoYTelegrafo, out decimal AlquilerDeOficina, out decimal GastosDeDepreciacion)
+        public void GastosDeAdministracionLeer(out decimal SueldoDeGerente, out decimal ServiciosBasicosVentas, out decimal SueldoDeViceGerente, out decimal SueldoDeContador, out decimal SueldoDelPersonalDeOficina, out decimal SeguroSocialDelPersonal, out decimal ConsumoDePapeleríaYUtilesDeEscritorio, out decimal GastosDeCoreoYTelegrafo, out decimal AlquilerDeOficina, out decimal GastosDeDepreciacion)
         {
             SueldoDeGerente = 0m;
             SueldoDeViceGerente = 0m;
@@ -512,7 +512,7 @@ namespace Estadoderesultado
 
         }
 
-        static void GastosFinancieros(out decimal InteresesSobreDocumentos, out decimal DescuentoPorPagoAnticipado, out decimal InteresesSobrePrestamosBancarios, out decimal PerdidasOUtilidadesQueResultenDelIntercambioDeMonedaExtrangera)
+        public void GastosFinancieros(out decimal InteresesSobreDocumentos, out decimal DescuentoPorPagoAnticipado, out decimal InteresesSobrePrestamosBancarios, out decimal PerdidasOUtilidadesQueResultenDelIntercambioDeMonedaExtrangera)
         {
             InteresesSobreDocumentos = 0m;
             DescuentoPorPagoAnticipado = 0m;
@@ -572,7 +572,7 @@ namespace Estadoderesultado
 
         }
 
-        static void EgresosLeer(out decimal InteresesPagados, out decimal ServiciosBancarios, out decimal RentasCobradas, out decimal PerdidasoUtilidadesEnVentaDeVariosActivosFijo, out decimal PerdidasoUtilidadesEnCompraDeActivos, out decimal RentasPagadas, out decimal DividendoDeAcciones, out decimal ComisionesCobradas)
+        public void EgresosLeer(out decimal InteresesPagados, out decimal ServiciosBancarios, out decimal RentasCobradas, out decimal PerdidasoUtilidadesEnVentaDeVariosActivosFijo, out decimal PerdidasoUtilidadesEnCompraDeActivos, out decimal RentasPagadas, out decimal DividendoDeAcciones, out decimal ComisionesCobradas)
         {
             InteresesPagados = 0m;
             ServiciosBancarios = 0m;
@@ -692,7 +692,7 @@ namespace Estadoderesultado
 
         }
 
-        static void OtrosIngresosLeer(out decimal InteresesCobrados, out decimal DividendosCobrados)
+        public void OtrosIngresosLeer(out decimal InteresesCobrados, out decimal DividendosCobrados)
         {
             InteresesCobrados = 0m;
             DividendosCobrados = 0m;
@@ -731,7 +731,7 @@ namespace Estadoderesultado
 
 
         }
-        static void TotalVentasNetas(decimal VentasTotales, decimal Devoluciones, decimal RebajasSobreVentas, decimal Descuentos, out decimal TotalVentasN)
+        public void TotalVentasNetas(decimal VentasTotales, decimal Devoluciones, decimal RebajasSobreVentas, decimal Descuentos, out decimal TotalVentasN)
         {
             TotalVentasN = 0m;
             TotalVentasN = VentasTotales + Devoluciones + RebajasSobreVentas + Descuentos;
@@ -749,7 +749,7 @@ namespace Estadoderesultado
             Console.WriteLine("=======================================");
         }
 
-        static void TotalComprasNetas(decimal Compras, decimal MercanciaDisponible, decimal GastosDeCompra, decimal DevolucionesSobreCompra, decimal RebajasSobreCompras, decimal DescuentoSobreCompra, decimal InventarioInicial, decimal InventarioFinal, out decimal TotalComprasN)
+        public void TotalComprasNetas(decimal Compras, decimal MercanciaDisponible, decimal GastosDeCompra, decimal DevolucionesSobreCompra, decimal RebajasSobreCompras, decimal DescuentoSobreCompra, decimal InventarioInicial, decimal InventarioFinal, out decimal TotalComprasN)
         {
             MercanciaDisponible = 0m;
             TotalComprasN = 0m;
@@ -772,7 +772,7 @@ namespace Estadoderesultado
             Console.WriteLine("=======================================");
 
         }
-        static void CalcUtilidadBruta(decimal TotalVentasN, decimal TotalComprasN, out decimal UtilidadBruta)
+        public void CalcUtilidadBruta(decimal TotalVentasN, decimal TotalComprasN, out decimal UtilidadBruta)
         {
             UtilidadBruta = 0m;
             UtilidadBruta = TotalVentasN - TotalComprasN;
@@ -780,7 +780,7 @@ namespace Estadoderesultado
             Console.WriteLine("Utilidad Bruta: " + UtilidadBruta);
             Console.WriteLine("=======================================");
         }
-        static void TotalGastosDeVenta(decimal SueldoDeLosJefesDeVenta, decimal ServiciosBasicosVenta, decimal SueldoDeLosEmpleadosDeAlmacen, decimal SueldoDeLosEmpleadosDeLaVenta, decimal SueldosDeLosChoferesDelEquipoDeEntrega, decimal ComisionesDeAgentesYDependientes, decimal SeguroSocialesDelPersonalDeVenta, decimal Propaganda, decimal ConsumoDeEtiquetasEnvolturaYEmpaque, decimal FletesYAcarreosDeLaMercanciasVendidas, decimal GastosDeMantenimientoDelEquipoDeReparto, decimal ImpuestosSobreIngresosMercantiles, decimal RentaDeOficinaVentas, decimal GastosDeDepreciacionDeVenta, out decimal TotalGastosV)
+        public void TotalGastosDeVenta(decimal SueldoDeLosJefesDeVenta, decimal ServiciosBasicosVenta, decimal SueldoDeLosEmpleadosDeAlmacen, decimal SueldoDeLosEmpleadosDeLaVenta, decimal SueldosDeLosChoferesDelEquipoDeEntrega, decimal ComisionesDeAgentesYDependientes, decimal SeguroSocialesDelPersonalDeVenta, decimal Propaganda, decimal ConsumoDeEtiquetasEnvolturaYEmpaque, decimal FletesYAcarreosDeLaMercanciasVendidas, decimal GastosDeMantenimientoDelEquipoDeReparto, decimal ImpuestosSobreIngresosMercantiles, decimal RentaDeOficinaVentas, decimal GastosDeDepreciacionDeVenta, out decimal TotalGastosV)
         {
             TotalGastosV = 0m;
             TotalGastosV = SueldoDeLosJefesDeVenta + SueldoDeLosEmpleadosDeAlmacen + SueldoDeLosEmpleadosDeLaVenta + SueldosDeLosChoferesDelEquipoDeEntrega + ComisionesDeAgentesYDependientes + SeguroSocialesDelPersonalDeVenta + Propaganda + ConsumoDeEtiquetasEnvolturaYEmpaque + FletesYAcarreosDeLaMercanciasVendidas + GastosDeMantenimientoDelEquipoDeReparto + ImpuestosSobreIngresosMercantiles + RentaDeOficinaVentas + GastosDeDepreciacionDeVenta;
@@ -809,7 +809,7 @@ namespace Estadoderesultado
 
         }
 
-        static void TotalGastosDeAdministración(decimal SueldoDeGerente, decimal SueldoDeViceGerente, decimal SueldoDeContador, decimal SueldoDelPersonalDeOficina, decimal SeguroSocialDelPersonal, decimal ConsumoDePapeleríaYUtilesDeEscritorio, decimal GastosDeCoreoYTelegrafo, decimal AlquilerDeOficina, decimal GastosDeDepreciacion, out decimal TotalGastosAdmin)
+        public void TotalGastosDeAdministración(decimal SueldoDeGerente, decimal SueldoDeViceGerente, decimal SueldoDeContador, decimal SueldoDelPersonalDeOficina, decimal SeguroSocialDelPersonal, decimal ConsumoDePapeleríaYUtilesDeEscritorio, decimal GastosDeCoreoYTelegrafo, decimal AlquilerDeOficina, decimal GastosDeDepreciacion, out decimal TotalGastosAdmin)
         {
             TotalGastosAdmin = 0m;
             TotalGastosAdmin = SueldoDeGerente + SueldoDeViceGerente + SueldoDeContador + SueldoDelPersonalDeOficina + SeguroSocialDelPersonal + ConsumoDePapeleríaYUtilesDeEscritorio + ConsumoDePapeleríaYUtilesDeEscritorio + GastosDeCoreoYTelegrafo + AlquilerDeOficina + GastosDeDepreciacion;
@@ -831,7 +831,7 @@ namespace Estadoderesultado
             Console.WriteLine("=======================================");
         }
 
-        static void TotalGastosFinancieros(decimal InteresesSobreDocumentos, decimal DescuentoPorPagoAnticipado, decimal InteresesSobrePrestamosBancarios, decimal PerdidasOUtilidadesQueResultenDelIntercambioDeMonedaExtrangera, out decimal TotalGastosFi)
+        public void TotalGastosFinancieros(decimal InteresesSobreDocumentos, decimal DescuentoPorPagoAnticipado, decimal InteresesSobrePrestamosBancarios, decimal PerdidasOUtilidadesQueResultenDelIntercambioDeMonedaExtrangera, out decimal TotalGastosFi)
         {
             TotalGastosFi = 0m;
             TotalGastosFi = InteresesSobreDocumentos + DescuentoPorPagoAnticipado + InteresesSobrePrestamosBancarios + PerdidasOUtilidadesQueResultenDelIntercambioDeMonedaExtrangera;
@@ -847,7 +847,7 @@ namespace Estadoderesultado
             Console.WriteLine("=======================================");
 
         }
-        static void CalcUtilidadDeOperación(decimal TotalGastosV, decimal TotalGastosAdmin, decimal TotalGastosFi, decimal UtilidadBruta, out decimal UtilidadDeOperación)
+        public void CalcUtilidadDeOperación(decimal TotalGastosV, decimal TotalGastosAdmin, decimal TotalGastosFi, decimal UtilidadBruta, out decimal UtilidadDeOperación)
         {
             UtilidadDeOperación = UtilidadBruta - TotalGastosAdmin - TotalGastosV - TotalGastosFi;
             Console.WriteLine("=======================================");
@@ -855,7 +855,7 @@ namespace Estadoderesultado
             Console.WriteLine("=======================================");
         }
 
-        static void TotalOtrosIngresos(decimal InteresesCobrados, decimal DividendosCobrados, out decimal TotalOI)
+        public void TotalOtrosIngresos(decimal InteresesCobrados, decimal DividendosCobrados, out decimal TotalOI)
         {
             TotalOI = 0m;
             TotalOI = InteresesCobrados + DividendosCobrados;
@@ -869,7 +869,7 @@ namespace Estadoderesultado
             Console.WriteLine("=======================================");
         }
 
-        static void TotalOtrosegresos(decimal InteresesPagados, decimal ServiciosBancarios, decimal RentasCobradas, decimal PerdidasoUtilidadesEnVentaDeVariosActivosFijo, decimal PerdidasoUtilidadesEnCompraDeActivos, decimal RentasPagadas, decimal DividendoDeAcciones, decimal ComisionesCobradas, out decimal TotalOtrosGastos)
+        public void TotalOtrosegresos(decimal InteresesPagados, decimal ServiciosBancarios, decimal RentasCobradas, decimal PerdidasoUtilidadesEnVentaDeVariosActivosFijo, decimal PerdidasoUtilidadesEnCompraDeActivos, decimal RentasPagadas, decimal DividendoDeAcciones, decimal ComisionesCobradas, out decimal TotalOtrosGastos)
         {
             TotalOtrosGastos = 0m;
             TotalOtrosGastos = InteresesPagados + ServiciosBancarios + RentasPagadas + PerdidasoUtilidadesEnVentaDeVariosActivosFijo + RentasCobradas + PerdidasoUtilidadesEnCompraDeActivos + DividendoDeAcciones + ComisionesCobradas;
@@ -888,7 +888,7 @@ namespace Estadoderesultado
             Console.WriteLine("Total de Otros Gastos: " + TotalOtrosGastos);
             Console.WriteLine("=======================================");
         }
-        static void CalcUtilidadAntesdeISR(decimal TotalOI, decimal UtilidadDeOperacion, decimal TotalOtrosGastos, out decimal UtilidadAntesDeImpuesto)
+        public void CalcUtilidadAntesdeISR(decimal TotalOI, decimal UtilidadDeOperacion, decimal TotalOtrosGastos, out decimal UtilidadAntesDeImpuesto)
         {
             UtilidadAntesDeImpuesto = 0m;
             UtilidadAntesDeImpuesto = UtilidadDeOperacion + TotalOI + TotalOtrosGastos;
@@ -897,7 +897,7 @@ namespace Estadoderesultado
             Console.WriteLine("=======================================");
         }
 
-        static void Pregunta(out decimal ISR)
+        public void Pregunta(out decimal ISR)
         {
             ISR = 0m;
 
@@ -915,7 +915,7 @@ namespace Estadoderesultado
                 }
             } while (ISR < 0);
         }
-        static void CalcUtilidadNeta(decimal ISR, decimal UtilidadAntesDeImpuesto, out decimal UtilidadNeta)
+        public void CalcUtilidadNeta(decimal ISR, decimal UtilidadAntesDeImpuesto, out decimal UtilidadNeta)
         {
             UtilidadNeta = 0m;
             UtilidadNeta = UtilidadAntesDeImpuesto - ISR;
@@ -923,7 +923,7 @@ namespace Estadoderesultado
             Console.WriteLine("Utilidad Neta: " + UtilidadNeta);
             Console.WriteLine("=======================================");
         }
-        static void Main(string[] args)
+        public void EjecutarEstadoResultadoCompleto()
         {
             decimal VentasTotales;
             decimal Devoluciones;
@@ -955,5 +955,6 @@ namespace Estadoderesultado
             CalcUtilidadAntesdeISR(TotalOI, UtilidadDeOperación, TotalOtrosGastos, out decimal UtilidadAntesDeImpuesto);
             CalcUtilidadNeta(ISR, UtilidadAntesDeImpuesto, out decimal UtilidadNeta);
         }
+
     }
 }

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EstadodeSituacionFinanciera
+namespace Estadosfinancieros
 {
+
     public class EstadoFlujoEfectivo
     {
         public DateTime FechaInicio { get; set; }
@@ -30,12 +31,12 @@ namespace EstadodeSituacionFinanciera
 
         // Método para calcular flujos usando método DIRECTO
         public void CalcularMetodoDirecto(BalanceGeneral balanceInicial, BalanceGeneral balanceFinal,
-                                         EstadoResultado estadoResultado, List<TransaccionEfectivo> transacciones)
+                                         EstadoResultado estadodeResultado, List<TransaccionEfectivo> transacciones)
         {
             MetodoUtilizado = "Directo";
 
             // ACTIVIDADES DE OPERACIÓN
-            FlujoOperacion = CalcularFlujoOperacionDirecto(balanceInicial, balanceFinal, estadoResultado, transacciones);
+            FlujoOperacion = CalcularFlujoOperacionDirecto(balanceInicial, balanceFinal, estadodeResultado, transacciones);
 
             // ACTIVIDADES DE INVERSIÓN
             FlujoInversion = CalcularFlujoInversionDirecto(transacciones);
@@ -69,24 +70,24 @@ namespace EstadodeSituacionFinanciera
         }
 
         private decimal CalcularFlujoOperacionDirecto(BalanceGeneral balanceInicial, BalanceGeneral balanceFinal,
-                                                     EstadoResultado estadoResultado, List<TransaccionEfectivo> transacciones)
+                                                     EstadoResultado estadodeResultado, List<TransaccionEfectivo> transacciones)
         {
             decimal flujo = 0m;
 
             // Cobros a clientes
-            decimal cobrosClientes = CalcularCobrosClientes(balanceInicial, balanceFinal, estadoResultado);
+            decimal cobrosClientes = CalcularCobrosClientes(balanceInicial, balanceFinal, estadodeResultado);
             flujo += cobrosClientes;
 
             // Pagos a proveedores
-            decimal pagosProveedores = CalcularPagosProveedores(balanceInicial, balanceFinal, estadoResultado);
+            decimal pagosProveedores = CalcularPagosProveedores(balanceInicial, balanceFinal, estadodeResultado);
             flujo -= pagosProveedores;
 
             // Pagos a empleados (PTU, sueldos, etc.)
-            decimal pagosEmpleados = CalcularPagosEmpleados(balanceInicial, balanceFinal, estadoResultado, transacciones);
+            decimal pagosEmpleados = CalcularPagosEmpleados(balanceInicial, balanceFinal, estadodeResultado, transacciones);
             flujo -= pagosEmpleados;
 
             // Pagos de impuestos
-            decimal pagosImpuestos = CalcularPagosImpuestos(balanceInicial, balanceFinal, estadoResultado, transacciones);
+            decimal pagosImpuestos = CalcularPagosImpuestos(balanceInicial, balanceFinal, estadodeResultado, transacciones);
             flujo -= pagosImpuestos;
 
             // Otros cobros/pagos de operación
@@ -97,13 +98,13 @@ namespace EstadodeSituacionFinanciera
         }
 
         private decimal CalcularFlujoOperacionIndirecto(BalanceGeneral balanceInicial, BalanceGeneral balanceFinal,
-                                                       EstadoResultado estadoResultado)
+                                                       EstadoResultado estadodeResultado)
         {
             // Partir de la utilidad antes de impuestos (preferentemente)
-            decimal flujo = estadoResultado.UtilidadAntesImpuestos;
+            decimal flujo = estadodeResultado.UtilidadAntesImpuestos;
 
             // Ajustar por partidas que no afectan el efectivo
-            flujo = AjustarPartidasNoEfectivo(flujo, estadoResultado, balanceInicial, balanceFinal);
+            flujo = AjustarPartidasNoEfectivo(flujo, estadodeResultado, balanceInicial, balanceFinal);
 
             // Ajustar por cambios en el capital de trabajo
             flujo = AjustarCapitalTrabajo(flujo, balanceInicial, balanceFinal);
@@ -146,22 +147,22 @@ namespace EstadodeSituacionFinanciera
         }
 
         // Métodos auxiliares para cálculos específicos
-        private decimal CalcularCobrosClientes(BalanceGeneral balanceInicial, BalanceGeneral balanceFinal, EstadoResultado estadoResultado)
+        private decimal CalcularCobrosClientes(BalanceGeneral balanceInicial, BalanceGeneral balanceFinal, EstadoResultado estadodeResultado)
         {
             // Fórmula: Saldo Inicial Clientes + Ventas Netas - Saldo Final Clientes
             decimal clientesInicial = ObtenerSaldoCuenta(balanceInicial, "Clientes");
             decimal clientesFinal = ObtenerSaldoCuenta(balanceFinal, "Clientes");
-            decimal ventasNetas = estadoResultado.VentasNetas;
+            decimal ventasNetas = estadodeResultado.VentasNetas;
 
             return clientesInicial + ventasNetas - clientesFinal;
         }
 
-        private decimal CalcularPagosProveedores(BalanceGeneral balanceInicial, BalanceGeneral balanceFinal, EstadoResultado estadoResultado)
+        private decimal CalcularPagosProveedores(BalanceGeneral balanceInicial, BalanceGeneral balanceFinal, EstadoResultado estadodeResultado)
         {
             // Fórmula simplificada para ejemplo
             decimal proveedoresInicial = ObtenerSaldoCuenta(balanceInicial, "Proveedores");
             decimal proveedoresFinal = ObtenerSaldoCuenta(balanceFinal, "Proveedores");
-            decimal comprasNetas = estadoResultado.CostoVentas; // Aproximación
+            decimal comprasNetas = estadodeResultado.CostoVentas; // Aproximación
 
             return proveedoresInicial + comprasNetas - proveedoresFinal;
         }
@@ -208,16 +209,16 @@ namespace EstadodeSituacionFinanciera
             return flujo;
         }
 
-        private decimal AjustarPartidasNoEfectivo(decimal flujoBase, EstadoResultado estadoResultado,
+        private decimal AjustarPartidasNoEfectivo(decimal flujoBase, EstadoResultado estadodeResultado,
                                                  BalanceGeneral balanceInicial, BalanceGeneral balanceFinal)
         {
             // Agregar depreciaciones y amortizaciones
-            flujoBase += estadoResultado.Depreciacion + estadoResultado.Amortizacion;
+            flujoBase += estadodeResultado.Depreciacion + estadodeResultado.Amortizacion;
 
             // Ajustar por ganancias/pérdidas en venta de activos
             // (estas se presentarán en actividades de inversión)
-            flujoBase -= estadoResultado.GananciaVentaActivos;
-            flujoBase += estadoResultado.PerdidaVentaActivos;
+            flujoBase -= estadodeResultado.GananciaVentaActivos;
+            flujoBase += estadodeResultado.PerdidaVentaActivos;
 
             return flujoBase;
         }
@@ -321,7 +322,7 @@ namespace EstadodeSituacionFinanciera
     }
 
     // Clase simplificada de Estado de Resultados para integración
-    public class EstadoResultado
+    public class EstadodeResultado
     {
         public decimal VentasNetas { get; set; }
         public decimal CostoVentas { get; set; }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EstadodeSituacionFinanciera
+namespace Estadosfinancieros
 {
     // Representa una cuenta individual
     public class Cuenta

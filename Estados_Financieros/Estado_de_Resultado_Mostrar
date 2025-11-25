@@ -1,5 +1,5 @@
 using System;
-using EstadodeResultados;
+using Estadosfinancieros;
 namespace Estadosfinancieros
 {
     public class EstadoResultado

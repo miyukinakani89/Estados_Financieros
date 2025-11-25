@@ -14,7 +14,7 @@ namespace SistemaFinanciero
             var estadoFlujoEfectivo = new EstadoFlujoEfectivo();
             var estadoResultado = new EstadoResultado();
             var transacciones = new List<TransaccionEfectivo>();
-            
+           
 
             bool salir = false;
 

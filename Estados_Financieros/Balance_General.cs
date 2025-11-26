@@ -1,16 +1,13 @@
-﻿//using Microsoft.Data.SqlClient;
-//using Microsoft.Extensions.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace Estadosfinancieros
 {
-    // Representa una cuenta individual
     public class Cuenta
     {
-        public string Codigo { get; set; } // opcional, p.ej. "1.1.1"
+        public string Codigo { get; set; } 
         public string Nombre { get; set; }
         public decimal Monto { get; set; } = 0m;
         public string Clasificacion { get; set; }
@@ -27,7 +24,6 @@ namespace Estadosfinancieros
             return $"{(string.IsNullOrWhiteSpace(Codigo) ? "" : Codigo + " ")}{Nombre}: {Monto:C2}";
         }
     }
-    // Grupo de cuentas (por ejemplo Activo Circulante)
     public class GrupoCuenta
     {
         public string Nombre { get; private set; }
@@ -59,7 +55,6 @@ namespace Estadosfinancieros
         }
     }
 
-    // Balance General - contiene todos los grupos
     public class BalanceGeneral
     {
         public List<GrupoCuenta> ActivoCirculante { get; private set; } = new List<GrupoCuenta>();
@@ -68,7 +63,6 @@ namespace Estadosfinancieros
         public List<GrupoCuenta> PasivoNoCirculante { get; private set; } = new List<GrupoCuenta>();
         public GrupoCuenta Capital { get; private set; } = new GrupoCuenta("Capital Contable");
 
-        // Constructor -> crea la estructura completa con cuentas por defecto
         public BalanceGeneral()
         {
             CrearEstructuraActivos();
@@ -78,12 +72,18 @@ namespace Estadosfinancieros
 
         private void CrearEstructuraActivos()
         {
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("\n=======================================");
+            Console.WriteLine("          ACTIVOS");
+            Console.WriteLine("=======================================\n");
+            Console.ResetColor();
             // ACTIVO CIRCULANTE
             var disponible = new GrupoCuenta("Activo Circulante - Disponible (Efectivo y equivalentes)");
             disponible.AñadirCuenta(new Cuenta("1.1.1", "Caja", disponible.Nombre));
             disponible.AñadirCuenta(new Cuenta("1.1.2", "Fondos de caja chica", disponible.Nombre));
             disponible.AñadirCuenta(new Cuenta("1.1.3", "Bancos (cuentas corrientes y de ahorro)", disponible.Nombre));
+            disponible.AñadirCuenta(new Cuenta("1.1.4", "Fondo de oportunidades", disponible.Nombre));
+            disponible.AñadirCuenta(new Cuenta("1.1.5", "Inversiones Temporales", disponible.Nombre));
 
             var realizable = new GrupoCuenta("Activo Circulante - Realizable");
             realizable.AñadirCuenta(new Cuenta("1.2.1", "Clientes / Cuentas por cobrar comerciales", realizable.Nombre));
@@ -91,6 +91,17 @@ namespace Estadosfinancieros
             realizable.AñadirCuenta(new Cuenta("1.2.3", "Funcionarios y empleados (anticipo/otros)", realizable.Nombre));
             realizable.AñadirCuenta(new Cuenta("1.2.4", "IVA acreditable / Impuestos recuperables", realizable.Nombre));
             realizable.AñadirCuenta(new Cuenta("1.2.5", "Inversiones temporales (corto plazo)", realizable.Nombre));
+            realizable.AñadirCuenta(new Cuenta("1.2.6", "Deudores", realizable.Nombre));
+            realizable.AñadirCuenta(new Cuenta("1.2.7", "Inventario", realizable.Nombre));
+            realizable.AñadirCuenta(new Cuenta("1.2.8", "Anticipo de impuestos", realizable.Nombre));
+            realizable.AñadirCuenta(new Cuenta("1.2.9", "Mercancía en tránsito", realizable.Nombre));
+            realizable.AñadirCuenta(new Cuenta("1.2.10", "Papelería y útiles", realizable.Nombre));
+            realizable.AñadirCuenta(new Cuenta("1.2.11", "Propaganda y publicidad", realizable.Nombre));
+            realizable.AñadirCuenta(new Cuenta("1.2.12", "Muestras médicas y literaturas", realizable.Nombre));
+            realizable.AñadirCuenta(new Cuenta("1.2.13", "Primas a seguros y fianzas", realizable.Nombre));
+            realizable.AñadirCuenta(new Cuenta("1.2.14", "Rentas pagadas por anticipado", realizable.Nombre));
+            realizable.AñadirCuenta(new Cuenta("1.2.15", "Intereses pagados por anticipado", realizable.Nombre));
+           
 
             var otrosActCir = new GrupoCuenta("Activo Circulante - Otros");
             otrosActCir.AñadirCuenta(new Cuenta("1.3.1", "Otros activos circulantes", otrosActCir.Nombre));
@@ -113,7 +124,15 @@ namespace Estadosfinancieros
             intangible.AñadirCuenta(new Cuenta("2.2.2", "Patentes", intangible.Nombre));
             intangible.AñadirCuenta(new Cuenta("2.2.3", "Marca y nombres comerciales", intangible.Nombre));
             intangible.AñadirCuenta(new Cuenta("2.2.4", "Crédito mercantil (goodwill)", intangible.Nombre));
-            intangible.AñadirCuenta(new Cuenta("2.2.5", "Amortización acumulada (resta)", intangible.Nombre));
+            intangible.AñadirCuenta(new Cuenta("2.2.5", "Gastos pre operativos", intangible.Nombre));
+            intangible.AñadirCuenta(new Cuenta("2.2.6", "Descuentos en emisiones de obligaciones", intangible.Nombre));
+            intangible.AñadirCuenta(new Cuenta("2.2.7", "Gastos en colocación de Valores", intangible.Nombre));
+            intangible.AñadirCuenta(new Cuenta("2.2.8", "Gastos de constitución", intangible.Nombre));
+            intangible.AñadirCuenta(new Cuenta("2.2.9", "Gastos e organización", intangible.Nombre));
+            intangible.AñadirCuenta(new Cuenta("2.2.10", "Gastos de instalación", intangible.Nombre));
+            intangible.AñadirCuenta(new Cuenta("2.2.11", "Papelería y útiles", intangible.Nombre));
+            intangible.AñadirCuenta(new Cuenta("2.2.9", "Primas de seguro y fianzas", intangible.Nombre));
+            intangible.AñadirCuenta(new Cuenta("2.2.", "Amortización acumulada (resta)", intangible.Nombre));
 
             var otrosNoCirc = new GrupoCuenta("Activo No Circulante - Otros");
             otrosNoCirc.AñadirCuenta(new Cuenta("2.3.1", "Inversiones permanentes y otras no circulantes", otrosNoCirc.Nombre));
@@ -126,22 +145,34 @@ namespace Estadosfinancieros
 
         private void CrearEstructuraPasivos()
         {
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("\n=======================================");
+            Console.WriteLine("       PASIVOS");
+            Console.WriteLine("=======================================\n");
+            Console.ResetColor();
             // PASIVO CIRCULANTE (Corto plazo)
             var pasivoCorto = new GrupoCuenta("Pasivo Circulante (Corto plazo)");
             pasivoCorto.AñadirCuenta(new Cuenta("3.1.1", "Proveedores", pasivoCorto.Nombre));
             pasivoCorto.AñadirCuenta(new Cuenta("3.1.2", "Documentos por pagar (corto plazo)", pasivoCorto.Nombre));
-            pasivoCorto.AñadirCuenta(new Cuenta("3.1.3", "Acreedores varios", pasivoCorto.Nombre));
-            pasivoCorto.AñadirCuenta(new Cuenta("3.1.4", "Impuestos por pagar", pasivoCorto.Nombre));
-            pasivoCorto.AñadirCuenta(new Cuenta("3.1.5", "Sueldos y prestaciones por pagar", pasivoCorto.Nombre));
-            pasivoCorto.AñadirCuenta(new Cuenta("3.1.6", "Porciones cortas de deuda a largo plazo", pasivoCorto.Nombre));
+            pasivoCorto.AñadirCuenta(new Cuenta("3.1.3", "Acreedores diversos", pasivoCorto.Nombre));
+            pasivoCorto.AñadirCuenta(new Cuenta("3.1.4", "Acreedores bancarios", pasivoCorto.Nombre));
+            pasivoCorto.AñadirCuenta(new Cuenta("3.1.5", "Impuestos por pagar", pasivoCorto.Nombre));
+            pasivoCorto.AñadirCuenta(new Cuenta("3.1.6", "Anticipo de clientes", pasivoCorto.Nombre));
+            pasivoCorto.AñadirCuenta(new Cuenta("3.1.7", "Dividendos por pagar", pasivoCorto.Nombre));
+            pasivoCorto.AñadirCuenta(new Cuenta("3.1.8", "IVA por pagar", pasivoCorto.Nombre));
+            pasivoCorto.AñadirCuenta(new Cuenta("3.1.9", "Impuesto sobre la renta por pagar", pasivoCorto.Nombre));
+            pasivoCorto.AñadirCuenta(new Cuenta("3.1.10", "Impuestos y derechcos retenidos por enterar", pasivoCorto.Nombre));
+            pasivoCorto.AñadirCuenta(new Cuenta("3.1.11", "Intereses por pagar", pasivoCorto.Nombre));
+            pasivoCorto.AñadirCuenta(new Cuenta("3.1.12", "Gastos acumulados por pagar", pasivoCorto.Nombre));
+            pasivoCorto.AñadirCuenta(new Cuenta("3.1.13", "Ingresos cobrados por anticipado", pasivoCorto.Nombre));
 
             // PASIVO NO CIRCULANTE (Largo plazo)
             var pasivoLargo = new GrupoCuenta("Pasivo No Circulante (Largo plazo)");
-            pasivoLargo.AñadirCuenta(new Cuenta("3.2.1", "Préstamos bancarios a largo plazo", pasivoLargo.Nombre));
-            pasivoLargo.AñadirCuenta(new Cuenta("3.2.2", "Obligaciones hipotecarias", pasivoLargo.Nombre));
-            pasivoLargo.AñadirCuenta(new Cuenta("3.2.3", "Pasivos laborales a largo plazo", pasivoLargo.Nombre));
-            pasivoLargo.AñadirCuenta(new Cuenta("3.2.4", "Provisiones a largo plazo", pasivoLargo.Nombre));
-            pasivoLargo.AñadirCuenta(new Cuenta("3.2.5", "Otros pasivos no circulantes", pasivoLargo.Nombre));
+            pasivoLargo.AñadirCuenta(new Cuenta("3.2.1", "Acreedores hipotecarios", pasivoLargo.Nombre));
+            pasivoLargo.AñadirCuenta(new Cuenta("3.2.2", "Acreedores bancarios", pasivoLargo.Nombre));
+            pasivoLargo.AñadirCuenta(new Cuenta("3.2.3", "Documentos por pagar a largo plazo", pasivoLargo.Nombre));
+            pasivoLargo.AñadirCuenta(new Cuenta("3.2.4", "Obligaciones a circulación", pasivoLargo.Nombre));
+            pasivoLargo.AñadirCuenta(new Cuenta("3.2.5", "Bonos por pagar", pasivoLargo.Nombre));
 
             PasivoCirculante.Add(pasivoCorto);
             PasivoNoCirculante.Add(pasivoLargo);
@@ -149,12 +180,19 @@ namespace Estadosfinancieros
 
         private void CrearEstructuraCapital()
         {
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("\n=======================================");
+            Console.WriteLine("       CAPITAL");
+            Console.WriteLine("=======================================\n");
+            Console.ResetColor();
             Capital = new GrupoCuenta("Capital Contable");
             Capital.AñadirCuenta(new Cuenta("4.1.1", "Capital social", Capital.Nombre));
             Capital.AñadirCuenta(new Cuenta("4.1.2", "Aportaciones adicionales (prima emisión)", Capital.Nombre));
-            Capital.AñadirCuenta(new Cuenta("4.1.3", "Reservas legales y estatutarias", Capital.Nombre));
-            Capital.AñadirCuenta(new Cuenta("4.1.4", "Utilidades retenidas", Capital.Nombre));
-            Capital.AñadirCuenta(new Cuenta("4.1.5", "Resultado del ejercicio (utilidad/pérdida)", Capital.Nombre));
+            Capital.AñadirCuenta(new Cuenta("4.1.3", "Primas en Ventas de acciones", Capital.Nombre));
+            Capital.AñadirCuenta(new Cuenta("4.1.4", "Donaciones", Capital.Nombre));
+            Capital.AñadirCuenta(new Cuenta("4.1.5", "Utilidades retenidas", Capital.Nombre));
+            Capital.AñadirCuenta(new Cuenta("4.1.6", "Reservas legales y estatutarias", Capital.Nombre));
+            Capital.AñadirCuenta(new Cuenta("4.1.7", "Resultado del ejercicio (utilidad/pérdida)", Capital.Nombre));
            
         }
 
@@ -194,7 +232,7 @@ namespace Estadosfinancieros
 
         public void MostrarBalanceCompleto()
         {
-            Console.ForegroundColor = ConsoleColor.White;
+            
             Console.WriteLine("\n\n==================== BALANCE GENERAL ====================\n");
             Console.WriteLine("ACTIVO:");
             foreach (var g in ActivoCirculante)
@@ -231,7 +269,7 @@ namespace Estadosfinancieros
             Console.WriteLine($"\nTOTAL CAPITAL: {TotalCapital():C2}\n");
         }
 
-        // Verifica si cuadra el balance
+        
         public (bool cuadra, decimal diferencia) VerificarCuadre()
         {
             var activo = TotalActivo();

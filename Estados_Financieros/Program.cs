@@ -8,12 +8,11 @@ namespace SistemaFinanciero
     {
         static void Main(string[] args)
         {
-            Console.Title = "Sistema de Estados Financieros.";
 
             var balanceGeneral = new BalanceGeneral();
             var estadoFlujoEfectivo = new EstadoFlujoEfectivo();
             var estadoResultado = new EstadoResultado();
-            var transacciones = new List<TransaccionEfectivo>();
+            
            
 
             bool salir = false;
@@ -21,23 +20,22 @@ namespace SistemaFinanciero
             while (!salir)
             {
                 Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("==========================================");
-                Console.WriteLine("     SISTEMA DE ESTADOS FINANCIEROS");
+                Console.WriteLine("           ESTADOS FINANCIEROS");
                 Console.WriteLine("==========================================");
                 Console.ResetColor();
                 Console.WriteLine("\n1. Ingresar Datos del Balance General");
                 Console.WriteLine("2. Ingresar Datos del Estado de Resultados");
-                Console.WriteLine("3. Generar Estado de Flujos de Efectivo (Indirecto)");
-                Console.WriteLine("4. Mostrar Todos los Estados");
-                Console.WriteLine("5. Salir");
+                Console.WriteLine("3. Generar Estado de Flujos de Efectivo (Método Indirecto)");
+                Console.WriteLine("4. Salir");
                 Console.Write("\nSeleccione una opción: ");
                 int opcion=0;
                 do
                 {
                     try
                     {
-                        opcion = int.Parse(Console.ReadLine());
+                        opcion = int.Parse(Console.ReadLine() ?? "");
 
                     }
                     catch (FormatException)
@@ -56,12 +54,14 @@ namespace SistemaFinanciero
                         IngresarDatosEstadoResultados(estadoResultado);
                         break;                
                     case 3:
-                        GenerarFlujoEfectivoIndirecto(estadoFlujoEfectivo, balanceGeneral, estadoResultado, transacciones);
+                        Console.WriteLine("=== PARA GENERAR FLUJO DE EFECTIVO SE NECESITA BALANCE ANTERIOR ===");
+                        Console.WriteLine("Vamos a crear el balance general del período anterior...");
+                        var balanceAnterior = new BalanceGeneral();
+                        IngresarDatosBalance(balanceAnterior);
+                        var estadoFlujoEfectivoPasado = new EstadoFlujoEfectivo();
+                        GenerarFlujoEfectivo(estadoFlujoEfectivo, balanceGeneral, balanceAnterior, estadoResultado);
                         break;
                     case 4:
-                        MostrarTodosEstados(balanceGeneral, estadoResultado, estadoFlujoEfectivo);
-                        break;
-                    case 5:
                         salir = true;
                         break;
                 }
@@ -76,16 +76,12 @@ namespace SistemaFinanciero
 
             Console.Clear();
 
-            Console.ForegroundColor = ConsoleColor.White;
-            //Console.OutputEncoding = Encoding.UTF8;
+            Console.ForegroundColor = ConsoleColor.Blue;      
             Console.WriteLine("========== BALANCE GENERAL ==========\n");
-
-        
-
-            // Menú para que usuario ingrese montos por grupo o por todas las cuentas
+            Console.ResetColor();
             while (true)
             {
-                Console.ForegroundColor = ConsoleColor.White;
+                
                 Console.WriteLine("\nElija una opción para ingresar montos:");
                 Console.WriteLine("1. Ingresar montos por sección (Activo circulante, Activo no circulante, Pasivo, Capital)");
                 Console.WriteLine("2. Ingresar montos para todas las cuentas en orden (más rápido)");
@@ -98,7 +94,6 @@ namespace SistemaFinanciero
 
                 if (opt == "1")
                 {
-                    // Mostrar secciones y permitir seleccionar una
                     IngresarPorSecciones(balance);
                 }
                 else if (opt == "2")
@@ -139,12 +134,11 @@ namespace SistemaFinanciero
             }
         }
 
-        // Permite ingresar cuenta por cuenta todas en orden
         static void IngresarTodasCuentas(BalanceGeneral balance)
         {
             var lista = balance.ObtenerListaPlanaCuentas();
             Console.ForegroundColor = ConsoleColor.White;
-            int datos;
+           // int datos ;
 
             Console.WriteLine("\nIngresando para todas las cuentas {Para omitir una cuenta, deje en blanco o escriba 0}.");
 
@@ -170,7 +164,6 @@ namespace SistemaFinanciero
             Console.WriteLine("\nIngreso completo.");
         }
 
-        // Permite elegir sección a sección y llenar las cuentas de esa sección
         static void IngresarPorSecciones(BalanceGeneral balance)
         {
             Console.ForegroundColor = ConsoleColor.White;
@@ -184,8 +177,8 @@ namespace SistemaFinanciero
             Console.Write("\nSeleccione una opción: ");
             var opt = Console.ReadLine()?.Trim();
 
-            List<GrupoCuenta> grupo = null;
-            GrupoCuenta grupoUnico = null;
+            List<GrupoCuenta>? grupo = null;
+            GrupoCuenta? grupoUnico = null;
 
             switch (opt)
             {
@@ -232,42 +225,41 @@ namespace SistemaFinanciero
         static void IngresarDatosEstadoResultados(EstadoResultado estadoResultado)
         {
             Console.Clear();
-            Console.WriteLine("=== INGRESAR DATOS ESTADO DE RESULTADOS ===");
 
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("===== INGRESAR DATOS ESTADO DE RESULTADOS =====");
+            Console.ResetColor();
             estadoResultado.EjecutarEstadoResultadoCompleto();
 
             Pausa();
         }
-        
-
-        static void GenerarFlujoEfectivoIndirecto(EstadoFlujoEfectivo flujoEfectivo, BalanceGeneral balance,
-                                                 EstadoResultado estadoResultado, List<TransaccionEfectivo> transacciones)
+        static void GenerarFlujoEfectivo(EstadoFlujoEfectivo flujoEfectivo,
+                                         BalanceGeneral balanceActual, BalanceGeneral balanceAnterior,
+                                         EstadoResultado estadoResultado)
         {
             Console.Clear();
             Console.WriteLine("=== ESTADO DE FLUJOS DE EFECTIVO - MÉTODO INDIRECTO ===");
 
-            flujoEfectivo.Entidad = "Empresa";
+            // Configurar período
             flujoEfectivo.FechaInicio = DateTime.Now.AddYears(-1);
             flujoEfectivo.FechaFin = DateTime.Now;
 
+            // Solicitar utilidad neta
+            Console.Write("\nIngrese la utilidad neta del período: ");
+            decimal utilidadNeta;
+            while (!decimal.TryParse(Console.ReadLine(), out utilidadNeta))
+            {
+                Console.Write("Valor inválido. Ingrese la utilidad neta: ");
+            }
 
-            Pausa();
-        }
+            Console.WriteLine($"\nGenerando estado para el período: {flujoEfectivo.FechaInicio:dd/MM/yyyy} al {flujoEfectivo.FechaFin:dd/MM/yyyy}");
 
-        static void MostrarTodosEstados(BalanceGeneral balance, EstadoResultado estadoResultado,
-                                       EstadoFlujoEfectivo flujoEfectivo)
-        {
-            Console.Clear();
-            Console.WriteLine("=== RESUMEN DE TODOS LOS ESTADOS ===");
+            // Calcular flujos usando solo los balances y la utilidad neta
+            flujoEfectivo.CalcularFlujosDesdeEstados(balanceActual, balanceAnterior, utilidadNeta);
 
-            Console.WriteLine("\n--- BALANCE GENERAL ---");
-            balance.MostrarBalanceCompleto();
-
-            Console.WriteLine("\n--- ESTADO DE RESULTADOS ---");
-            // Aquí mostrarías el estado de resultados
-
-            Console.WriteLine("\n--- ESTADO DE FLUJOS DE EFECTIVO ---");
-            // Aquí mostrarías el último estado generado
+            // Mostrar resultados
+            flujoEfectivo.MostrarEstadoFlujoEfectivo();
+            flujoEfectivo.MostrarVariacionAO_AI_AF();
 
             Pausa();
         }
@@ -276,10 +268,7 @@ namespace SistemaFinanciero
         {
             Console.WriteLine("\nPresione cualquier tecla para continuar...");
             Console.ReadKey();
-        
-        }
-        
-       
-        
+
+        }        
     }
 }

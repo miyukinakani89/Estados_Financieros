@@ -9,66 +9,46 @@ namespace Estadosfinancieros
             Devoluciones = 0m;
             RebajasSobreVentas = 0m;
             Descuentos = 0m;
+            string texto = "";
 
-            Console.WriteLine("=======================================");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("\n=======================================");
             Console.WriteLine("           INGRESO DE VENTAS");
             Console.WriteLine("=======================================\n");
+            Console.ResetColor();
 
             do
-            {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto de Ventas Totales");
-                    VentasTotales = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
-
+            {           
+                    Console.WriteLine("Ingrese el monto de Ventas Totales");          
+                    texto = Console.ReadLine() ?? "";
+                     VentasTotales = ObtenerNumero(texto);
             } while (VentasTotales < 0);
 
             do
-            {
-                try
-                {
+            {                
                     Console.WriteLine("Ingrese el monto de Devoluciones(Valor Negativo)");
-                    Devoluciones = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                    texto = Console.ReadLine() ?? "";
+                   Devoluciones = ObtenerNumero(texto);
             } while (Devoluciones > 0);
 
             do
-            {
-                try
-                {
+            {             
                     Console.WriteLine("Ingrese el monto de Rebajas sobre la venta(Valor Negativo)");
-                    RebajasSobreVentas = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                    texto = Console.ReadLine() ?? "";
+                    RebajasSobreVentas = ObtenerNumero(texto);
             } while (RebajasSobreVentas > 0);
+
             do
             {
-                try
-                {
                     Console.WriteLine("Ingrese el monto de Descuentos(Valor Negativo)");
-                    Descuentos = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                    texto = Console.ReadLine() ?? "";
+                    Descuentos= ObtenerNumero(texto);
+
             } while (Descuentos > 0);
 
         }
 
-        public void CostosLeer(out decimal Compras, out decimal GastosDeCompra, out decimal DevolucionesSobreCompra, out decimal RebajasSobreCompras, out decimal DescuentoSobreCompra, out decimal InventarioInicial, out decimal InventarioFinal)
+        public void CostosLeer(out decimal Compras,out decimal GastosDeCompra, out decimal DevolucionesSobreCompra, out decimal RebajasSobreCompras, out decimal DescuentoSobreCompra, out decimal InventarioInicial, out decimal InventarioFinal)
         {
             Compras = 0m;
             GastosDeCompra = 0m;
@@ -77,101 +57,63 @@ namespace Estadosfinancieros
             DescuentoSobreCompra = 0m;
             InventarioInicial = 0m;
             InventarioFinal = 0m;
+            string texto = "";
 
-            Console.WriteLine("=======================================");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("\n=======================================");
             Console.WriteLine("           COSTOS DE VENTAS");
             Console.WriteLine("=======================================\n");
+            Console.ResetColor();
 
             do
-            {
-                try
-                {
+            {           
                     Console.WriteLine("Ingrese el monto del Inventario Inicial");
-                    InventarioInicial = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                    texto = Console.ReadLine() ?? "";
+                    InventarioInicial = ObtenerNumero(texto);
             } while (InventarioInicial < 0);
 
             do
-            {
-                try
-                {
+            {        
                     Console.WriteLine("Ingrese el monto de las Compras");
-                    GastosDeCompra = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                   texto = Console.ReadLine() ?? "";
+                   GastosDeCompra = ObtenerNumero(texto);
+
             } while (GastosDeCompra < 0);
 
             do
-            {
-                try
-                {
+            {            
                     Console.WriteLine("Ingrese el monto de los Gastos de compra");
-                    GastosDeCompra = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                    texto = Console.ReadLine() ?? "";
+                    GastosDeCompra = ObtenerNumero(texto);
             } while (GastosDeCompra < 0);
 
             do
-            {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto de las Devoluciones sobre compra(Valor Negativo)");
-                    DevolucionesSobreCompra = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+            {             
+                    Console.WriteLine("Ingrese el monto de las Devoluciones sobre compra(Valor Negativo)");                
+                    texto = Console.ReadLine() ?? "";
+                    DevolucionesSobreCompra = ObtenerNumero(texto);
             } while (DevolucionesSobreCompra > 0);
 
             do
             {
-                try
-                {
                     Console.WriteLine("Ingrese el monto de Rebajas sobre compras(Valor Negativo)");
-                    RebajasSobreCompras = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                    texto = Console.ReadLine() ?? "";
+                    RebajasSobreCompras = ObtenerNumero(texto);
             } while (RebajasSobreCompras > 0);
 
             do
-            {
-                try
-                {
+            {            
                     Console.WriteLine("Ingrese el monto de Descuentos sobre compra(Valor Negativo)");
-                    DescuentoSobreCompra = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                    texto = Console.ReadLine() ?? "";
+                    DescuentoSobreCompra = ObtenerNumero(texto);
             } while (DescuentoSobreCompra > 0);
 
             do
-            {
-                try
-                {
+            {              
                     Console.WriteLine("Ingrese el monto de Inventario Final(Valor Negativo)");
-                    InventarioFinal = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
-            } while (InventarioFinal > 0);
+                    texto = Console.ReadLine() ?? "";
+                    InventarioFinal = ObtenerNumero(texto);
+                } while (InventarioFinal > 0);
 
         }
 
@@ -190,179 +132,110 @@ namespace Estadosfinancieros
             ImpuestosSobreIngresosMercantiles = 0m;
             RentaDeOficinaVentas = 0m;
             GastosDeDepreciacionDeVenta = 0m;
+            string texto = "";
 
-            Console.WriteLine("=======================================");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("\n=======================================");
             Console.WriteLine("           GASTO DE VENTAS");
             Console.WriteLine("=======================================\n");
-            do
-            {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto del Sueldo de jefes de venta");
-                    SueldoDeLosJefesDeVenta = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
-            } while (SueldoDeLosJefesDeVenta < 0);
+            Console.ResetColor();
 
             do
-            {
-                try
-                {
+            {              
+                    Console.WriteLine("Ingrese el monto del Sueldo de jefes de venta");
+                    texto = Console.ReadLine() ?? "";
+                    SueldoDeLosJefesDeVenta= ObtenerNumero(texto);
+             } while (SueldoDeLosJefesDeVenta < 0);
+
+            do
+            {               
                     Console.WriteLine("Ingrese el monto del Sueldo de Empleados del almacén");
-                    SueldoDeLosEmpleadosDeAlmacen = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                    texto = Console.ReadLine() ?? "";
+                    SueldoDeLosEmpleadosDeAlmacen = ObtenerNumero(texto);
+
             } while (SueldoDeLosEmpleadosDeAlmacen < 0);
 
             do
             {
-                try
-                {
+            
                     Console.WriteLine("Ingrese el monto del Sueldo de los Empleados de Venta");
-                    SueldoDeLosEmpleadosDeLaVenta = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                    texto = Console.ReadLine() ?? "";
+                    SueldoDeLosEmpleadosDeLaVenta = ObtenerNumero(texto);
+               
             } while (SueldoDeLosEmpleadosDeLaVenta < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto del Sueldo de los choferes de equipo de entrega");
-                    SueldosDeLosChoferesDelEquipoDeEntrega = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto del Sueldo de los choferes de equipo de entrega");
+                texto = Console.ReadLine() ?? "";
+                SueldosDeLosChoferesDelEquipoDeEntrega = ObtenerNumero(texto);
+
             } while (SueldosDeLosChoferesDelEquipoDeEntrega < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto de las Comisiones de Agentes y Dependientes");
-                    ComisionesDeAgentesYDependientes = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto de las Comisiones de Agentes y Dependientes");
+                texto = Console.ReadLine() ?? "";
+                ComisionesDeAgentesYDependientes = ObtenerNumero(texto);
             } while (ComisionesDeAgentesYDependientes < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto del Seguro Social del personal de Venta");
-                    SeguroSocialesDelPersonalDeVenta = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto del Seguro Social del personal de Venta");
+                texto = Console.ReadLine() ?? "";
+                SeguroSocialesDelPersonalDeVenta = ObtenerNumero(texto);
             } while (SeguroSocialesDelPersonalDeVenta < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto de la Propaganda");
-                    Propaganda = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto de la Propaganda");
+                texto = Console.ReadLine() ?? "";
+                Propaganda = ObtenerNumero(texto);
             } while (Propaganda < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto del Consumo de Empaque");
-                    ConsumoDeEtiquetasEnvolturaYEmpaque = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto del Consumo de Empaque");
+                texto = Console.ReadLine() ?? "";
+                ConsumoDeEtiquetasEnvolturaYEmpaque = ObtenerNumero(texto);
             } while (ConsumoDeEtiquetasEnvolturaYEmpaque < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto de el Acarreo de las Mercancias Vendidas");
-                    FletesYAcarreosDeLaMercanciasVendidas = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto de el Acarreo de las Mercancias Vendidas");
+                texto = Console.ReadLine() ?? "";
+                FletesYAcarreosDeLaMercanciasVendidas = ObtenerNumero(texto);
             } while (FletesYAcarreosDeLaMercanciasVendidas < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto del Gasto de Mantenimiento del equipo de ventas");
-                    GastosDeMantenimientoDelEquipoDeReparto = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto del Gasto de Mantenimiento del equipo de ventas");
+                texto = Console.ReadLine() ?? "";
+                GastosDeMantenimientoDelEquipoDeReparto = ObtenerNumero(texto);
             } while (GastosDeMantenimientoDelEquipoDeReparto < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto del Impuesto sobre ingresos mercantiles");
-                    ImpuestosSobreIngresosMercantiles = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto del Impuesto sobre ingresos mercantiles");
+                texto = Console.ReadLine() ?? "";
+                ImpuestosSobreIngresosMercantiles = ObtenerNumero(texto);
             } while (ImpuestosSobreIngresosMercantiles < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto de la Renta de Oficina de ventas");
-                    RentaDeOficinaVentas = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto de la Renta de Oficina de ventas");
+                texto = Console.ReadLine() ?? "";
+                RentaDeOficinaVentas = ObtenerNumero(texto);
             } while (RentaDeOficinaVentas < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto de los Gastos de Depreciacion de venta");
-                    GastosDeDepreciacionDeVenta = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto de los Gastos de Depreciacion de venta");
+                texto = Console.ReadLine() ?? "";
+                GastosDeDepreciacionDeVenta = ObtenerNumero(texto);
             } while (GastosDeDepreciacionDeVenta < 0);
         }
+
         public void GastosDeAdministracionLeer(out decimal SueldoDeGerente, out decimal ServiciosBasicosVentas, out decimal SueldoDeViceGerente, out decimal SueldoDeContador, out decimal SueldoDelPersonalDeOficina, out decimal SeguroSocialDelPersonal, out decimal ConsumoDePapeleríaYUtilesDeEscritorio, out decimal GastosDeCoreoYTelegrafo, out decimal AlquilerDeOficina, out decimal GastosDeDepreciacion)
         {
             SueldoDeGerente = 0m;
@@ -375,139 +248,87 @@ namespace Estadosfinancieros
             AlquilerDeOficina = 0m;
             GastosDeDepreciacion = 0m;
             ServiciosBasicosVentas = 0m;
+            string texto = "";
 
-            Console.WriteLine("=======================================");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("\n=======================================");
             Console.WriteLine("       GASTO DE ADMINISTRACION");
             Console.WriteLine("=======================================\n");
-
+            Console.ResetColor();
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto del Sueldo De Gerente");
-                    SueldoDeGerente = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto del Sueldo De Gerente");
+                texto = Console.ReadLine() ?? "";
+                SueldoDeGerente = ObtenerNumero(texto);
             } while (SueldoDeGerente < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto del Sueldo De Vice Gerente");
-                    SueldoDeViceGerente = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto del Sueldo De Vice Gerente");
+                texto = Console.ReadLine() ?? "";
+                SueldoDeViceGerente = ObtenerNumero(texto);
             } while (SueldoDeViceGerente < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto del Sueldo Del Contador");
-                    SueldoDeContador = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto del Sueldo Del Contador");
+                texto = Console.ReadLine() ?? "";
+                SueldoDeContador = ObtenerNumero(texto);
             } while (SueldoDeContador < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto del Sueldo Del Personal");
-                    SueldoDelPersonalDeOficina = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto del Sueldo Del Personal");
+                texto = Console.ReadLine() ?? "";
+                SueldoDelPersonalDeOficina = ObtenerNumero(texto);
+
             } while (SueldoDelPersonalDeOficina < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto del Seguro Social del Personal");
-                    SeguroSocialDelPersonal = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto del Seguro Social del Personal");
+                texto = Console.ReadLine() ?? "";
+                SeguroSocialDelPersonal = ObtenerNumero(texto);
             } while (SeguroSocialDelPersonal < 0);
 
             do
             {
-                try
-                {
+                
                     Console.WriteLine("Ingrese el monto de papeleria y utiles de escritorio");
-                    ConsumoDePapeleríaYUtilesDeEscritorio = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                texto = Console.ReadLine() ?? "";
+               ConsumoDePapeleríaYUtilesDeEscritorio = ObtenerNumero(texto);
             } while (ConsumoDePapeleríaYUtilesDeEscritorio < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto de los Gastos de Correo");
-                    GastosDeCoreoYTelegrafo = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                  Console.WriteLine("Ingrese el monto de los Gastos de Correo");
+                texto = Console.ReadLine() ?? "";
+               GastosDeCoreoYTelegrafo = ObtenerNumero(texto);
+
             } while (GastosDeCoreoYTelegrafo < 0);
 
             do
             {
-                try
-                {
+              
                     Console.WriteLine("Ingrese el monto del Alquiler de oficina");
-                    AlquilerDeOficina = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                texto = Console.ReadLine() ?? "";
+                AlquilerDeOficina = ObtenerNumero(texto);
+
             } while (AlquilerDeOficina < 0);
 
             do
-            {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto de los Servicios Basicos del departamento de ventas");
-                    ServiciosBasicosVentas = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+            {             
+                  Console.WriteLine("Ingrese el monto de los Servicios Basicos del departamento de ventas");
+                texto = Console.ReadLine() ?? "";
+                ServiciosBasicosVentas = ObtenerNumero(texto);
+
             } while (ServiciosBasicosVentas < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto del Gasto de depreciación");
-                    GastosDeDepreciacion = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto del Gasto de depreciación");
+                texto = Console.ReadLine() ?? "";
+                GastosDeDepreciacion = ObtenerNumero(texto);
             } while (GastosDeDepreciacion < 0);
 
         }
@@ -518,56 +339,39 @@ namespace Estadosfinancieros
             DescuentoPorPagoAnticipado = 0m;
             InteresesSobrePrestamosBancarios = 0m;
             PerdidasOUtilidadesQueResultenDelIntercambioDeMonedaExtrangera = 0m;
+            string texto = "";
+
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("\n=======================================");
+            Console.WriteLine("       GASTOS FINANCIEROS");
+            Console.WriteLine("=======================================\n");
+            Console.ResetColor();
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto de los Intereses sobre Documentos");
-                    InteresesSobreDocumentos = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto de los Intereses sobre Documentos");
+                texto = Console.ReadLine() ?? "";
+                InteresesSobreDocumentos= ObtenerNumero(texto);
             } while (InteresesSobreDocumentos < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto del descuento por pago anticipado");
-                    DescuentoPorPagoAnticipado = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto del descuento por pago anticipado");
+                texto = Console.ReadLine() ?? "";
+               DescuentoPorPagoAnticipado = ObtenerNumero(texto);
             } while (DescuentoPorPagoAnticipado < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto del Interes sobre prestamos bancarios");
-                    InteresesSobrePrestamosBancarios = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto del Interes sobre prestamos bancarios");
+                texto = Console.ReadLine() ?? "";
+                InteresesSobrePrestamosBancarios = ObtenerNumero(texto);
             } while (InteresesSobrePrestamosBancarios < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto de las perdidas o utilidades que resulten del intercambio de moneda extranjera");
-                    PerdidasOUtilidadesQueResultenDelIntercambioDeMonedaExtrangera = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto de las perdidas o utilidades que resulten del intercambio de moneda extranjera");
+                texto = Console.ReadLine() ?? "";
+                PerdidasOUtilidadesQueResultenDelIntercambioDeMonedaExtrangera = ObtenerNumero(texto);
             } while (PerdidasOUtilidadesQueResultenDelIntercambioDeMonedaExtrangera < 0);
 
         }
@@ -582,111 +386,67 @@ namespace Estadosfinancieros
             PerdidasoUtilidadesEnCompraDeActivos = 0m;
             DividendoDeAcciones = 0m;
             ComisionesCobradas = 0m;
+            string texto = "";
 
-            Console.WriteLine("=======================================");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("\n=======================================");
             Console.WriteLine("             OTROS GASTOS");
             Console.WriteLine("=======================================\n");
+            Console.ResetColor();
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto de los Intereses Pagados");
-                    InteresesPagados = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto de los Intereses Pagados");
+                texto = Console.ReadLine() ?? "";
+                InteresesPagados = ObtenerNumero(texto);
+
             } while (InteresesPagados < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto de los Servicios Bancarios");
-                    ServiciosBancarios = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto de los Servicios Bancarios");
+                texto = Console.ReadLine() ?? "";
+                ServiciosBancarios = ObtenerNumero(texto);
             } while (ServiciosBancarios < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto de las Rentas Pagadas");
-                    RentasPagadas = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto de las Rentas Pagadas");
+                texto = Console.ReadLine() ?? "";
+                RentasPagadas = ObtenerNumero(texto);
             } while (RentasPagadas < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto del Dividendo de Acciones");
-                    DividendoDeAcciones = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto del Dividendo de Acciones");
+                texto = Console.ReadLine() ?? "";
+                DividendoDeAcciones = ObtenerNumero(texto);
             } while (DividendoDeAcciones < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto de las Perdidas en venta de activo fijo");
-                    PerdidasoUtilidadesEnVentaDeVariosActivosFijo = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto de las Perdidas en venta de activo fijo");
+                texto = Console.ReadLine() ?? "";
+                PerdidasoUtilidadesEnVentaDeVariosActivosFijo = ObtenerNumero(texto);
             } while (PerdidasoUtilidadesEnVentaDeVariosActivosFijo < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto de las Perdidas o Utilidades en compra de activos");
-                    PerdidasoUtilidadesEnCompraDeActivos = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                Console.WriteLine("Ingrese el monto de las Perdidas o Utilidades en compra de activos");
+                texto = Console.ReadLine() ?? "";
+                PerdidasoUtilidadesEnCompraDeActivos = ObtenerNumero(texto);
             } while (PerdidasoUtilidadesEnCompraDeActivos < 0);
 
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto de las Rentas Cobradas");
-                    RentasCobradas = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
-            } while (RentasCobradas < 0);
+                Console.WriteLine("Ingrese el monto de las Rentas Cobradas");
+                    texto = Console.ReadLine() ?? "";
+                    RentasCobradas = ObtenerNumero(texto);
+                } while (RentasCobradas < 0);
             do
-            {
-                try
-                {
+            {           
                     Console.WriteLine("Ingrese el monto de las Comisiones Cobradas");
-                    ComisionesCobradas = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                texto = Console.ReadLine() ?? "";
+                ComisionesCobradas = ObtenerNumero(texto);
             } while (ComisionesCobradas < 0);
 
 
@@ -696,34 +456,26 @@ namespace Estadosfinancieros
         {
             InteresesCobrados = 0m;
             DividendosCobrados = 0m;
+            string texto = "";
 
-            Console.WriteLine("=======================================");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("\n=======================================");
             Console.WriteLine("           OTROS INGRESOS");
             Console.WriteLine("=======================================\n");
-
+            Console.ResetColor();
+            do
+            {          
+                    Console.WriteLine("Ingrese el monto de los intereses Cobrados");                
+                    texto = Console.ReadLine() ?? "";
+                   InteresesCobrados = ObtenerNumero(texto);
+                } while (InteresesCobrados < 0);
             do
             {
-                try
-                {
-                    Console.WriteLine("Ingrese el monto de los intereses Cobrados");
-                    InteresesCobrados = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
-            } while (InteresesCobrados < 0);
-            do
-            {
-                try
-                {
+               
                     Console.WriteLine("Ingrese el monto de los dividendos Cobrados");
-                    DividendosCobrados = decimal.Parse(Console.ReadLine() ?? "");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("DATO INVALIDO");
-                }
+                texto = Console.ReadLine() ?? "";
+               DividendosCobrados = ObtenerNumero(texto);
+
             } while (DividendosCobrados < 0);
 
 
@@ -736,7 +488,7 @@ namespace Estadosfinancieros
             TotalVentasN = 0m;
             TotalVentasN = VentasTotales + Devoluciones + RebajasSobreVentas + Descuentos;
 
-            Console.WriteLine("=======================================");
+            Console.WriteLine("\n=======================================");
             Console.WriteLine("                VENTAS");
             Console.WriteLine("=======================================\n");
 
@@ -954,6 +706,18 @@ namespace Estadosfinancieros
             TotalOtrosegresos(InteresesPagados, ServiciosBancarios, RentasCobradas, PerdidasoUtilidadesEnVentaDeVariosActivosFijo, PerdidasoUtilidadesEnCompraDeActivos, RentasPagadas, DividendoDeAcciones, ComisionesCobradas, out decimal TotalOtrosGastos);
             CalcUtilidadAntesdeISR(TotalOI, UtilidadDeOperación, TotalOtrosGastos, out decimal UtilidadAntesDeImpuesto);
             CalcUtilidadNeta(ISR, UtilidadAntesDeImpuesto, out decimal UtilidadNeta);
+        }
+        static int ObtenerNumero(string texto)
+        {
+            int resultado;
+
+            while (!int.TryParse(texto, out resultado))
+            {
+                Console.WriteLine("Entrada no válida. Intente de nuevo:");
+                texto = Console.ReadLine() ?? "";
+            }
+
+            return resultado;
         }
 
     }

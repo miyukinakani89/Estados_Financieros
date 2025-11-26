@@ -76,7 +76,7 @@ namespace Estadosfinancieros
             {        
                     Console.WriteLine("Ingrese el monto de las Compras");
                    texto = Console.ReadLine() ?? "";
-                   GastosDeCompra = ObtenerNumero(texto);
+                   Compras = ObtenerNumero(texto);
 
             } while (GastosDeCompra < 0);
 

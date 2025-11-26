@@ -13,35 +13,51 @@ namespace Estadosfinancieros
         public decimal FlujoNetoInversion { get; private set; }
         public decimal FlujoNetoFinanciamiento { get; private set; }
         public decimal IncrementoNetoEfectivo { get; private set; }
-
+        public decimal EfectivoInicial { get; private set; }
+        public decimal EfectivoFinal { get; private set; }
 
         public void CalcularFlujosDesdeEstados(BalanceGeneral balanceActual, BalanceGeneral balanceAnterior,
-                                              decimal utilidadNeta)
+                                              EstadoResultado estadoResultado)
         {
+      
+            decimal utilidadNeta = CalcularUtilidadNetaDesdeEstadoResultado(estadoResultado);
+
             CalcularActividadesOperacion(balanceActual, balanceAnterior, utilidadNeta);
-
             CalcularActividadesInversion(balanceActual, balanceAnterior);
-
             CalcularActividadesFinanciamiento(balanceActual, balanceAnterior);
 
             IncrementoNetoEfectivo = FlujoNetoOperacion + FlujoNetoInversion + FlujoNetoFinanciamiento;
+
+          
+            EfectivoInicial = CalcularEfectivoInicial(balanceAnterior);
+            EfectivoFinal = EfectivoInicial + IncrementoNetoEfectivo;
+        }
+
+        private decimal CalcularUtilidadNetaDesdeEstadoResultado(EstadoResultado estadoResultado)
+        {
+         
+            Console.Write("\nIngrese la utilidad neta del período: ");
+            decimal utilidadNeta;
+            while (!decimal.TryParse(Console.ReadLine(), out utilidadNeta))
+            {
+                Console.Write("Valor inválido. Ingrese la utilidad neta: ");
+            }
+            return utilidadNeta;
         }
 
         private void CalcularActividadesOperacion(BalanceGeneral balanceActual, BalanceGeneral balanceAnterior,
                                                  decimal utilidadNeta)
         {
-            Console.WriteLine("\n ===CÁLCULO DE ACTIVIDADES DE OPERACIÓN ---");
+            Console.WriteLine("\n=== CÁLCULO DE ACTIVIDADES DE OPERACIÓN ===");
 
-            // 1. Utilidad neta como punto de partida
             decimal flujoOperacion = utilidadNeta;
             Console.WriteLine($"Utilidad neta: {utilidadNeta:C2}");
 
-            // 2. Ajustes por partidas no monetarias
             decimal depreciacionAmortizacion = CalcularDepreciacionAmortizacion(balanceActual, balanceAnterior);
             flujoOperacion += depreciacionAmortizacion;
             Console.WriteLine($"(+) Depreciación y amortización: {depreciacionAmortizacion:C2}");
 
-            // 3. Cambios en el capital de trabajo
+        
             decimal variacionCapitalTrabajo = CalcularVariacionesCapitalTrabajo(balanceActual, balanceAnterior);
             flujoOperacion += variacionCapitalTrabajo;
 
@@ -53,27 +69,17 @@ namespace Estadosfinancieros
         {
             decimal depreciacionTotal = 0m;
 
-            // Buscar todas las cuentas de depreciación y amortización
-            var cuentasDepreciacionActual = balanceActual.ObtenerListaPlanaCuentas()
-                .Where(c => c.Nombre.ToLower().Contains("depreciación") ||
-                           c.Nombre.ToLower().Contains("amortización") ||
-                           c.Nombre.ToLower().Contains("dep. acumulada"))
-                .ToList();
+            var cuentasDepreciacion = new[] { "depreciación", "amortización", "dep. acumulada", "amort. acumulada" };
 
-            var cuentasDepreciacionAnterior = balanceAnterior.ObtenerListaPlanaCuentas()
-                .Where(c => c.Nombre.ToLower().Contains("depreciación") ||
-                           c.Nombre.ToLower().Contains("amortización") ||
-                           c.Nombre.ToLower().Contains("dep. acumulada"))
-                .ToList();
-
-            foreach (var cuentaActual in cuentasDepreciacionActual)
+            foreach (var cuentaActual in balanceActual.ObtenerListaPlanaCuentas())
             {
-                var cuentaAnterior = cuentasDepreciacionAnterior
-                    .FirstOrDefault(c => c.Nombre == cuentaActual.Nombre);
-
-                if (cuentaAnterior != null)
+                if (cuentasDepreciacion.Any(term => cuentaActual.Nombre.ToLower().Contains(term)))
                 {
-                    depreciacionTotal += cuentaActual.Monto - cuentaAnterior.Monto;
+                    var cuentaAnterior = balanceAnterior.ObtenerListaPlanaCuentas()
+                        .FirstOrDefault(c => c.Codigo == cuentaActual.Codigo);
+
+                    decimal montoAnterior = cuentaAnterior?.Monto ?? 0m;
+                    depreciacionTotal += cuentaActual.Monto - montoAnterior;
                 }
             }
 
@@ -85,47 +91,37 @@ namespace Estadosfinancieros
         {
             decimal variacionTotal = 0m;
 
-            // Cuentas por cobrar (clientes) - Aumento disminuye flujo, disminución aumenta flujo
+            
             var clientesActual = ObtenerSaldoCuenta(balanceActual, "Clientes");
             var clientesAnterior = ObtenerSaldoCuenta(balanceAnterior, "Clientes");
             decimal variacionClientes = clientesAnterior - clientesActual;
             variacionTotal += variacionClientes;
-            Console.WriteLine($"Variación en clientes: {variacionClientes:C2} ({clientesAnterior} - {clientesActual})");
+            Console.WriteLine($"Variación en clientes: {variacionClientes:C2}");
 
-            // Inventarios - Aumento disminuye flujo, disminución aumenta flujo
-            var inventariosActual = ObtenerSaldoCuenta(balanceActual, "Inventarios");
-            var inventariosAnterior = ObtenerSaldoCuenta(balanceAnterior, "Inventarios");
+            var inventariosActual = ObtenerSaldoCuenta(balanceActual, "Inventario");
+            var inventariosAnterior = ObtenerSaldoCuenta(balanceAnterior, "Inventario");
             decimal variacionInventarios = inventariosAnterior - inventariosActual;
             variacionTotal += variacionInventarios;
-            Console.WriteLine($"Variación en inventarios: {variacionInventarios:C2} ({inventariosAnterior} - {inventariosActual})");
+            Console.WriteLine($"Variación en inventarios: {variacionInventarios:C2}");
 
-            // Proveedores - Aumento aumenta flujo, disminución disminuye flujo
             var proveedoresActual = ObtenerSaldoCuenta(balanceActual, "Proveedores");
             var proveedoresAnterior = ObtenerSaldoCuenta(balanceAnterior, "Proveedores");
             decimal variacionProveedores = proveedoresActual - proveedoresAnterior;
             variacionTotal += variacionProveedores;
-            Console.WriteLine($"Variación en proveedores: {variacionProveedores:C2} ({proveedoresActual} - {proveedoresAnterior})");
+            Console.WriteLine($"Variación en proveedores: {variacionProveedores:C2}");
 
-            // Acreedores diversos
             var acreedoresActual = ObtenerSaldoCuenta(balanceActual, "Acreedores diversos");
             var acreedoresAnterior = ObtenerSaldoCuenta(balanceAnterior, "Acreedores diversos");
             decimal variacionAcreedores = acreedoresActual - acreedoresAnterior;
             variacionTotal += variacionAcreedores;
             Console.WriteLine($"Variación en acreedores diversos: {variacionAcreedores:C2}");
 
-            // ISR por pagar
-            var isrActual = ObtenerSaldoCuenta(balanceActual, "ISR por Pagar");
-            var isrAnterior = ObtenerSaldoCuenta(balanceAnterior, "ISR por Pagar");
-            decimal variacionISR = isrActual - isrAnterior;
-            variacionTotal += variacionISR;
-            Console.WriteLine($"Variación en ISR por pagar: {variacionISR:C2}");
-
-            // PTU por pagar
-            var ptuActual = ObtenerSaldoCuenta(balanceActual, "PTU por pagar");
-            var ptuAnterior = ObtenerSaldoCuenta(balanceAnterior, "PTU por pagar");
-            decimal variacionPTU = ptuActual - ptuAnterior;
-            variacionTotal += variacionPTU;
-            Console.WriteLine($"Variación en PTU por pagar: {variacionPTU:C2}");
+ 
+            var impuestosActual = ObtenerSaldoCuenta(balanceActual, "Impuestos por pagar");
+            var impuestosAnterior = ObtenerSaldoCuenta(balanceAnterior, "Impuestos por pagar");
+            decimal variacionImpuestos = impuestosActual - impuestosAnterior;
+            variacionTotal += variacionImpuestos;
+            Console.WriteLine($"Variación en impuestos por pagar: {variacionImpuestos:C2}");
 
             Console.WriteLine($"Variación total en capital de trabajo: {variacionTotal:C2}");
             return variacionTotal;
@@ -133,14 +129,18 @@ namespace Estadosfinancieros
 
         private void CalcularActividadesInversion(BalanceGeneral balanceActual, BalanceGeneral balanceAnterior)
         {
-            Console.WriteLine("\n--- CÁLCULO DE ACTIVIDADES DE INVERSIÓN ---");
+            Console.WriteLine("\n=== CÁLCULO DE ACTIVIDADES DE INVERSIÓN ===");
 
             decimal flujoInversion = 0m;
 
-            // Compra/venta de activos fijos
+     
             decimal compraVentaActivos = CalcularCompraVentaActivosFijos(balanceActual, balanceAnterior);
             flujoInversion += compraVentaActivos;
             Console.WriteLine($"Compra/venta neta de activos fijos: {compraVentaActivos:C2}");
+
+            decimal variacionInversiones = CalcularVariacionInversiones(balanceActual, balanceAnterior);
+            flujoInversion += variacionInversiones;
+            Console.WriteLine($"Variación en inversiones: {variacionInversiones:C2}");
 
             FlujoNetoInversion = flujoInversion;
             Console.WriteLine($"FLUJO NETO DE INVERSIÓN: {FlujoNetoInversion:C2}");
@@ -148,55 +148,48 @@ namespace Estadosfinancieros
 
         private decimal CalcularCompraVentaActivosFijos(BalanceGeneral balanceActual, BalanceGeneral balanceAnterior)
         {
-            // Calcular el cambio neto en activos fijos (excluyendo depreciación)
-            var activosFijosActual = CalcularTotalActivosFijos(balanceActual);
-            var activosFijosAnterior = CalcularTotalActivosFijos(balanceAnterior);
+      
+            var activosFijosNombres = new[] { "Terrenos", "Edificios", "Maquinaria", "Vehículos", "Mobiliario y equipo de oficina" };
 
-            // Si los activos aumentaron, fue por compra (flujo negativo)
-            // Si los activos disminuyeron, fue por venta (flujo positivo)
-            return activosFijosAnterior - activosFijosActual;
+            decimal totalActual = 0m;
+            decimal totalAnterior = 0m;
+
+            foreach (var nombre in activosFijosNombres)
+            {
+                totalActual += ObtenerSaldoCuenta(balanceActual, nombre);
+                totalAnterior += ObtenerSaldoCuenta(balanceAnterior, nombre);
+            }
+
+            return totalAnterior - totalActual;
         }
 
-        private decimal CalcularTotalActivosFijos(BalanceGeneral balance)
+        private decimal CalcularVariacionInversiones(BalanceGeneral balanceActual, BalanceGeneral balanceAnterior)
         {
-            // Sumar todos los activos fijos excluyendo depreciación acumulada
-            decimal total = 0m;
+            var inversionesActual = ObtenerSaldoCuenta(balanceActual, "Inversiones Temporales") +
+                                   ObtenerSaldoCuenta(balanceActual, "Inversiones permanentes");
+            var inversionesAnterior = ObtenerSaldoCuenta(balanceAnterior, "Inversiones Temporales") +
+                                     ObtenerSaldoCuenta(balanceAnterior, "Inversiones permanentes");
 
-            // Terrenos
-            total += ObtenerSaldoCuenta(balance, "Terrenos");
-
-            // Edificios (valor bruto)
-            total += ObtenerSaldoCuenta(balance, "Edificios");
-
-            // Maquinaria
-            total += ObtenerSaldoCuenta(balance, "Maquinaria");
-
-            // Mobiliario y equipo
-            total += ObtenerSaldoCuenta(balance, "Mobiliario y equipo de oficina");
-
-            // Equipo de transporte
-            total += ObtenerSaldoCuenta(balance, "Equipo de Transporte");
-
-            return total;
+            return inversionesAnterior - inversionesActual;
         }
 
         private void CalcularActividadesFinanciamiento(BalanceGeneral balanceActual, BalanceGeneral balanceAnterior)
         {
-            Console.WriteLine("\n--- CÁLCULO DE ACTIVIDADES DE FINANCIAMIENTO ---");
+            Console.WriteLine("\n=== CÁLCULO DE ACTIVIDADES DE FINANCIAMIENTO ===");
 
             decimal flujoFinanciamiento = 0m;
 
-            // Emisión de capital
+  
             decimal emisionCapital = CalcularEmisionCapital(balanceActual, balanceAnterior);
             flujoFinanciamiento += emisionCapital;
             Console.WriteLine($"(+) Emisión de capital: {emisionCapital:C2}");
 
-            // Obtención y pago de préstamos netos
+  
             decimal prestamosNetos = CalcularPrestamosNetos(balanceActual, balanceAnterior);
             flujoFinanciamiento += prestamosNetos;
             Console.WriteLine($"(+) Préstamos netos: {prestamosNetos:C2}");
 
-            // Dividendos pagados (estimado)
+   
             decimal dividendosPagados = CalcularDividendosPagados(balanceActual, balanceAnterior);
             flujoFinanciamiento -= dividendosPagados;
             Console.WriteLine($"(-) Dividendos pagados: {dividendosPagados:C2}");
@@ -207,42 +200,46 @@ namespace Estadosfinancieros
 
         private decimal CalcularEmisionCapital(BalanceGeneral balanceActual, BalanceGeneral balanceAnterior)
         {
-            var capitalActual = ObtenerSaldoCuenta(balanceActual, "Capital Social");
-            var capitalAnterior = ObtenerSaldoCuenta(balanceAnterior, "Capital Social");
+            var capitalActual = ObtenerSaldoCuenta(balanceActual, "Capital social");
+            var capitalAnterior = ObtenerSaldoCuenta(balanceAnterior, "Capital social");
             return Math.Max(capitalActual - capitalAnterior, 0);
         }
 
         private decimal CalcularPrestamosNetos(BalanceGeneral balanceActual, BalanceGeneral balanceAnterior)
         {
-            var prestamosActual = ObtenerSaldoCuenta(balanceActual, "Préstamos bancarios a largo plazo") +
-                                 ObtenerSaldoCuenta(balanceActual, "Acreedores Bancarios");
-            var prestamosAnterior = ObtenerSaldoCuenta(balanceAnterior, "Préstamos bancarios a largo plazo") +
-                                   ObtenerSaldoCuenta(balanceAnterior, "Acreedores Bancarios");
+            var prestamosActual = ObtenerSaldoCuenta(balanceActual, "Acreedores bancarios") +
+                                 ObtenerSaldoCuenta(balanceActual, "Documentos por pagar");
+            var prestamosAnterior = ObtenerSaldoCuenta(balanceAnterior, "Acreedores bancarios") +
+                                   ObtenerSaldoCuenta(balanceAnterior, "Documentos por pagar");
             return prestamosActual - prestamosAnterior;
         }
 
         private decimal CalcularDividendosPagados(BalanceGeneral balanceActual, BalanceGeneral balanceAnterior)
         {
-            // Estimación simple: si las utilidades retenidas disminuyeron más allá de la utilidad neta,
-            // probablemente se pagaron dividendos
-            var utilidadesActual = ObtenerSaldoCuenta(balanceActual, "Utilidades retenidas");
-            var utilidadesAnterior = ObtenerSaldoCuenta(balanceAnterior, "Utilidades retenidas");
+            var dividendosActual = ObtenerSaldoCuenta(balanceActual, "Dividendos por pagar");
+            var dividendosAnterior = ObtenerSaldoCuenta(balanceAnterior, "Dividendos por pagar");
 
-            // Esta es una estimación - en un sistema real se tendría el dato exacto
-            return Math.Max(utilidadesAnterior - utilidadesActual, 0);
+            return Math.Max(dividendosAnterior - dividendosActual, 0);
+        }
+
+        private decimal CalcularEfectivoInicial(BalanceGeneral balanceAnterior)
+        {
+            return ObtenerSaldoCuenta(balanceAnterior, "Caja") +
+                   ObtenerSaldoCuenta(balanceAnterior, "Bancos") +
+                   ObtenerSaldoCuenta(balanceAnterior, "Fondos de caja chica");
         }
 
         private decimal ObtenerSaldoCuenta(BalanceGeneral balance, string nombreCuenta)
         {
             var cuenta = balance.ObtenerListaPlanaCuentas()
-                .FirstOrDefault(c => c.Nombre.Contains(nombreCuenta));
+                .FirstOrDefault(c => c.Nombre.ToLower().Contains(nombreCuenta.ToLower()));
             return cuenta?.Monto ?? 0m;
         }
 
         public void MostrarEstadoFlujoEfectivo()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("==================================================");
             Console.WriteLine($"       ESTADO DE FLUJOS DE EFECTIVO");
             Console.WriteLine($"         (MÉTODO INDIRECTO - NIF B-2)");
@@ -250,38 +247,28 @@ namespace Estadosfinancieros
             Console.WriteLine($"Del {FechaInicio:dd/MM/yyyy} al {FechaFin:dd/MM/yyyy}");
             Console.WriteLine("==================================================\n");
 
-            // ACTIVIDADES DE OPERACIÓN
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("ACTIVIDADES DE OPERACIÓN:");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine($"  Flujo neto de actividades de operación: {FlujoNetoOperacion,10:C2}\n");
+            Console.WriteLine("ACTIVIDADES DE OPERACIÓN:");         
+            Console.WriteLine($"  Utilidad neta del período: {FlujoNetoOperacion,15:C2}");
+            Console.WriteLine($"  Ajustes por partidas no monetarias");
+            Console.WriteLine($"  Cambios en capital de trabajo");
+            Console.WriteLine($"  Flujo neto de actividades de operación: {FlujoNetoOperacion,8:C2}\n");
 
-            // ACTIVIDADES DE INVERSIÓN
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("ACTIVIDADES DE INVERSIÓN:");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine($"  Flujo neto de actividades de inversión: {FlujoNetoInversion,12:C2}\n");
+     
+            Console.WriteLine("ACTIVIDADES DE INVERSIÓN:");      
+            Console.WriteLine($"  Compra/venta de activos fijos");
+            Console.WriteLine($"  Inversiones financieras");
+            Console.WriteLine($"  Flujo neto de actividades de inversión: {FlujoNetoInversion,9:C2}\n");
 
-            // ACTIVIDADES DE FINANCIAMIENTO
-            Console.ForegroundColor = ConsoleColor.Cyan;
+
             Console.WriteLine("ACTIVIDADES DE FINANCIAMIENTO:");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine($"  Flujo neto de actividades de financiamiento: {FlujoNetoFinanciamiento,6:C2}\n");
+            Console.WriteLine($"  Emisión de capital y deuda");
+            Console.WriteLine($"  Pago de dividendos");
+            Console.WriteLine($"  Flujo neto de actividades de financiamiento: {FlujoNetoFinanciamiento,5:C2}\n");
 
-            // RESUMEN FINAL
-            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("RESUMEN:");
-            Console.ForegroundColor = ConsoleColor.White;
-
-            // Obtener efectivo inicial del balance anterior
-            decimal efectivoInicial = ObtenerSaldoCuenta(new BalanceGeneral(), "Caja") +
-                                     ObtenerSaldoCuenta(new BalanceGeneral(), "Bancos");
-            decimal efectivoFinal = efectivoInicial + IncrementoNetoEfectivo;
-
-            Console.WriteLine($"  Efectivo al inicio del período: {efectivoInicial,4:C2}");
-            Console.WriteLine($"  Incremento/Disminución neta de efectivo: {IncrementoNetoEfectivo,0:C2}");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"  EFECTIVO AL FINAL DEL PERÍODO: {efectivoFinal,8:C2}");
+            Console.WriteLine($"  Efectivo al inicio del período: {EfectivoInicial,13:C2}");
+            Console.WriteLine($"  Incremento/Disminución neta de efectivo: {IncrementoNetoEfectivo,3:C2}");
+            Console.WriteLine($"  EFECTIVO AL FINAL DEL PERÍODO: {EfectivoFinal,17:C2}");
 
             Console.ResetColor();
             Console.WriteLine("\n==================================================");
@@ -295,7 +282,7 @@ namespace Estadosfinancieros
             Console.WriteLine($"Actividades de Financiamiento (AF): {FlujoNetoFinanciamiento,9:C2}");
             Console.WriteLine($"INCREMENTO/DISMINUCIÓN NETA: {IncrementoNetoEfectivo,12:C2}");
 
-            // Análisis según NIF B-2
+
             decimal efectivoExcedente = FlujoNetoOperacion + FlujoNetoInversion;
             if (efectivoExcedente > 0)
             {
@@ -304,6 +291,26 @@ namespace Estadosfinancieros
             else
             {
                 Console.WriteLine($"\nEFECTIVO REQUERIDO DE FINANCIAMIENTO: {Math.Abs(efectivoExcedente):C2}");
+            }
+
+            Console.WriteLine("\n=== ANÁLISIS DE LA SITUACIÓN FINANCIERA ===");
+            if (FlujoNetoOperacion > 0)
+            {
+                Console.WriteLine("La empresa genera efectivo positivo de sus operaciones principales");
+            }
+            else
+            {
+                Console.WriteLine("La empresa no genera suficiente efectivo de sus operaciones");
+            }
+
+            if (FlujoNetoInversion < 0)
+            {
+                Console.WriteLine(" La empresa está invirtiendo en activos para crecimiento futuro");
+            }
+
+            if (FlujoNetoFinanciamiento > 0)
+            {
+                Console.WriteLine("La empresa está obteniendo financiamiento externo");
             }
         }
     }

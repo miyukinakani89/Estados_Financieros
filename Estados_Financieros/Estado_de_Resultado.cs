@@ -713,7 +713,9 @@ namespace Estadosfinancieros
 
             while (!int.TryParse(texto, out resultado))
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Entrada no válida. Intente de nuevo:");
+                Console.ResetColor();
                 texto = Console.ReadLine() ?? "";
             }
 

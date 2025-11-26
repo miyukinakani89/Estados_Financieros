@@ -300,6 +300,20 @@ namespace Estadosfinancieros
             }
             Console.WriteLine($"\nSuma de partidas no cero: {suma:C2}");
         }
+        public static decimal ObtenerDecimal(string texto)
+        {
+            decimal resultado;
+
+            while (!decimal.TryParse(texto, out resultado))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Entrada no válida. Intente de nuevo:");
+                Console.ResetColor();
+                texto = Console.ReadLine() ?? "";
+            }
+
+            return resultado;
+        }
     }
 
    

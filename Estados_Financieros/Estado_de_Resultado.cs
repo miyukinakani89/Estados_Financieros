@@ -505,7 +505,7 @@ namespace Estadosfinancieros
         {
             MercanciaDisponible = 0m;
             TotalComprasN = 0m;
-            MercanciaDisponible = InventarioInicial + Compras + GastosDeCompra + DevolucionesSobreCompra + RebajasSobreCompras;
+            MercanciaDisponible = InventarioInicial + Compras + GastosDeCompra + DevolucionesSobreCompra + RebajasSobreCompras+InventarioFinal;
             TotalComprasN = MercanciaDisponible - InventarioFinal;
             Console.WriteLine("=======================================");
             Console.WriteLine("                COMPRAS");
